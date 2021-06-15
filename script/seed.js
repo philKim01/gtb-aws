@@ -125,7 +125,7 @@ async function seed() {
   console.log("db synced!");
 
   // Creating Users
-  const userList = await userFirstNames.forEach((firstName) => {
+  await userFirstNames.forEach((firstName) => {
     userLastNames.forEach((lastName) => {
       User.create({
         firstName,
@@ -141,7 +141,7 @@ async function seed() {
   });
 
   // Creating Products
-  const productList = await products.forEach(
+  await products.forEach(
     ({ name, description, imageUrl, price, quantity, category }) => {
       Product.create({
         name,
