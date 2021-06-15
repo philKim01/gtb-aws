@@ -3,10 +3,6 @@
 const {
   db,
   models: { User },
-} = require("../server/db");
-
-const {
-  db,
   models: { Product },
 } = require("../server/db");
 
@@ -129,14 +125,14 @@ async function seed() {
   console.log("db synced!");
 
   // Creating Users
-  userFirstNames.forEach((firstName) => {
+  const userList = await userFirstNames.forEach((firstName) => {
     userLastNames.forEach((lastName) => {
-      await User.create({
+      User.create({
         firstName,
         lastName,
         email: `${firstName}.${lastName}@email.com`,
         password: "graceshopper",
-        street_address: "12345 FullStack St",
+        streetAddress: "12345 FullStack St",
         city: "New York",
         state: "New York",
         zipCode: 12345,
@@ -145,9 +141,9 @@ async function seed() {
   });
 
   // Creating Products
-  products.forEach(
+  const productList = await products.forEach(
     ({ name, description, imageUrl, price, quantity, category }) => {
-      await Product.create({
+      Product.create({
         name,
         description,
         imageUrl,
@@ -157,7 +153,6 @@ async function seed() {
       });
     }
   );
-
   console.log(`seeded successfully`);
 }
 
