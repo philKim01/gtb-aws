@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchToys as fetchProducts } from "../store/redux/toys";
+import { fetchProducts } from "../store/redux/products";
 import { Link } from "react-router-dom"
 
 /**
@@ -17,9 +17,10 @@ componentDidMount() {
 }
 
 render() {
+  const { products } = this.props;
   return (
     <ul style={{listStyleType: 'none'}}>
-      {this.props.toys.map((product) => {
+      {products.map((product) => {
         return (
           <li key={product.id}>
             <Link to={`/products/${product.id}`}>
@@ -38,7 +39,7 @@ render() {
 
 const mapState = state => {
   return {
-    toys: state.toys.toys,
+    products: state.products.products,
   }
 }
 

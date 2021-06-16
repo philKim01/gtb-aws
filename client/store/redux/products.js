@@ -26,41 +26,42 @@ const products = [
 ]
 
 // ACTION TYPES
-const SET_TOYS = 'SET_TOYS';
+const SET_PRODUCTS = 'SET_PRODUCTS';
 
 // ACTION CREATORS
-export const setToys = (toys) => {
+export const setProducts = (products) => {
   return {
-    type: SET_TOYS,
-    toys
+    type: SET_PRODUCTS,
+    products
   };
 };
 
 // THUNK
-export const fetchToys = () => {
+export const fetchProducts = () => {
   return async (dispatch) => {
     try {
-      // const response = await axios.get('/api/toys');
+      // const response = await axios.get('/api/products');
       // const { data } = response;
-      dispatch(setToys(products));
+      // dispatch(setProducts(data))
+      dispatch(setProducts(products));
     } catch (error) {
-      console.log('Error fetching toys from database');
+      console.log('Error fetching products from database');
     }
   };
 };
 
 const initialState = {
-  toys: []
+  products: []
 };
 
 // REDUCER
-const toysReducer = (state = initialState, action) => {
+const productsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_TOYS:
-      return { ...state, toys: action.toys };
+    case SET_PRODUCTS:
+      return { ...state, products: action.products };
     default:
       return state;
   }
 };
 
-export default toysReducer;
+export default productsReducer;
