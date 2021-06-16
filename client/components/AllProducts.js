@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchToys as fetchProducts } from "../store/redux";
+import {fetchToys as fetchProducts } from "../store/redux/toys";
 import { Link } from "react-router-dom"
 
 /**
@@ -46,7 +46,7 @@ const mapDisptach = (dispatch, { history }) => {
   return {
     getProducts: () => dispatch(fetchProducts())
   }
-  
+
 }
 
 export default connect(mapState, mapDisptach)(AllProducts);
