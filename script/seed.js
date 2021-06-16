@@ -25,7 +25,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/www.bbtoystore.com/mm5/beanies/schweetheart.jpg?ezimgfmt=rs:420x420/rscb1/ng:webp/ngcb1",
     price: 4.99,
-    quantity: 50,
+    stock: 50,
     category: "Stuffed Animals",
   },
   {
@@ -35,7 +35,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/images-na.ssl-images-amazon.com/images/I/713O5npuQYL._SX679_.jpg?ezimgfmt=rs:679x308/rscb1/ng:webp/ngcb1",
     price: 99.99,
-    quantity: 40,
+    stock: 40,
     category: "Videogames",
   },
   {
@@ -45,7 +45,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/hips.hearstapps.com/ghk.h-cdn.co/assets/18/02/1515430971-polly-pocket-world-bundle-index.jpg?ezimgfmt=rs:800x400/rscb1/ng:webp/ngcb1",
     price: 9.99,
-    quantity: 50,
+    stock: 50,
     category: "Action Figures & Dolls",
   },
   {
@@ -55,7 +55,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/upload.wikimedia.org/wikipedia/commons/b/bc/Bop_it.jpg?ezimgfmt=rs:450x290/rscb1/ng:webp/ngcb1",
     price: 19.99,
-    quantity: 50,
+    stock: 50,
     category: "Games",
   },
   {
@@ -65,7 +65,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/upload.wikimedia.org/wikipedia/commons/b/bc/Bop_it.jpg?ezimgfmt=rs:450x290/rscb1/ng:webp/ngcb1",
     price: 49.99,
-    quantity: 50,
+    stock: 50,
     category: "Videogames",
   },
   {
@@ -75,7 +75,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/images-na.ssl-images-amazon.com/images/I/81t0yMDVKoL._SL1500_.jpg?ezimgfmt=rs:487x404/rscb1/ng:webp/ngcb1",
     price: 19.99,
-    quantity: 80,
+    stock: 80,
     category: "Games",
   },
   {
@@ -85,7 +85,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/i.pinimg.com/originals/2e/8e/e5/2e8ee57ac31fb29da11c11651e5d942d.jpg?ezimgfmt=rs:521x405/rscb1/ng:webp/ngcb1",
     price: 19.99,
-    quantity: 80,
+    stock: 80,
     category: "Games",
   },
   {
@@ -95,7 +95,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/www.standingstills.com/pub/media/catalog/product/cache/75eed2686e01eb22cb4050b2f40ddf97/c/a/cad195-1-1.jpg?ezimgfmt=rs:350x350/rscb1/ng:webp/ngcb1",
     price: 9.99,
-    quantity: 80,
+    stock: 80,
     category: "Action Figures & Dolls",
   },
   {
@@ -105,7 +105,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/i.redd.it/w6y206286hzy.jpg?ezimgfmt=rs:770x343/rscb1/ng:webp/ngcb1",
     price: 4.99,
-    quantity: 80,
+    stock: 80,
     category: "Action Figures & Dolls",
   },
   {
@@ -115,7 +115,7 @@ const products = [
     imageUrl:
       "https://retrododo.com/ezoimgfmt/images-na.ssl-images-amazon.com/images/I/511NCRLSOLL.jpg?ezimgfmt=rs:402x500/rscb1/ng:webp/ngcb1",
     price: 14.99,
-    quantity: 50,
+    stock: 50,
     category: "Action Figures & Dolls",
   },
 ];
@@ -128,27 +128,27 @@ async function seed() {
   await userFirstNames.forEach((firstName) => {
     userLastNames.forEach((lastName) => {
       User.create({
-        firstName,
-        lastName,
-        email: `${firstName}.${lastName}@email.com`,
+        // firstName,
+        // lastName,
+        username: `${firstName}.${lastName}@email.com`,
         password: "graceshopper",
-        streetAddress: "12345 FullStack St",
-        city: "New York",
-        state: "New York",
-        zipCode: 12345,
+        // streetAddress: "12345 FullStack St",
+        // city: "New York",
+        // state: "New York",
+        // zipCode: 12345,
       });
     });
   });
 
   // Creating Products
   await products.forEach(
-    ({ name, description, imageUrl, price, quantity, category }) => {
+    ({ name, description, imageUrl, price, stock, category }) => {
       Product.create({
         name,
         description,
         imageUrl,
-        price,
-        quantity,
+        price: price * 100,
+        stock,
         category,
       });
     }
