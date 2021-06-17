@@ -1,53 +1,49 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import { fetchProducts } from "../store/redux/products";
-import { Link } from "react-router-dom"
+import React from "react";
+import { connect } from "react-redux";
+import { fetchCart } from "../store/redux/cart";
 
 /**
  * COMPONENT
  */
 class Cart extends React.Component {
   constructor() {
-    super()
+    super();
     //This is in preparation for some handlClick events
   }
 
-componentDidMount() {
-  this.props.getCart();
+  componentDidMount() {
+    this.props.getCart();
+  }
+
+  render() {
+    const { cartItems } = this.props;
+    return (
+      <ul style={{ listStyleType: "none" }}>
+        {cartItems.map((cartItem) => {
+          return (
+            <li key={cartItem.id}>
+              <p>{cartItem.product.name}</p>
+              <p>{cartItem.price}</p>
+              <p>{cartItem.quantity}</p>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
 }
 
-render() {
-  const { cartItems } = this.props;
-  return (
-    <ul style={{listStyleType: 'none'}}>
-      {products.map((product) => {
-        return (
-          <li key={product.id}>
-            <Link to={`/products/${product.id}`}>
-            <img src={product.imageUrl} />
-            </Link>
-            <h3>{product.name}</h3>
-            <h5>${product.price}</h5>
-            <p>Stock: {product.inventory}</p>
-          </li>
-        )
-      })}
-    </ul>
-  );
-}
-}
-
-const mapState = state => {
+const mapState = (state) => {
   return {
     cartItems: state.cart.cartItems,
-  }
-}
+    total: state.cart.total,
+  };
+};
 
-const mapDisptach = (dispatch, { history }) => {
+const mapDisptach = (dispatch) => {
   return {
-    getProducts: () => dispatch(fetchProducts())
-  }
-
-}
+    getCart: () => dispatch(fetchCart()),
+  };
+};
 
 export default connect(mapState, mapDisptach)(Cart);

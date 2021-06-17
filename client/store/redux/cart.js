@@ -23,13 +23,18 @@ export const fetchCart = () => {
   };
 };
 
-const initialState = [];
+const initialState = { total: 0, cartItems: [] };
 
 // REDUCER
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CART:
-      return action.cart;
+      // Calculate updated total and update cartItems array
+      const reducer = (accumulator, currentVal) => {
+        return accumulator + currentVal.price;
+      };
+      const total = action.cart.orderItems.reduce(reducer, 0);
+      return { total, cartItems: action.cart.orderItems };
     default:
       return state;
   }

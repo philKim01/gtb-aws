@@ -2,8 +2,7 @@
 
 const {
   db,
-  models: { User },
-  models: { Product },
+  models: { User, Product, Order, OrderItem },
 } = require("../server/db");
 
 /**
@@ -152,6 +151,43 @@ async function seed() {
       category,
     });
   }
+
+
+  // Creating Dummy Cart with status Unfulfilled
+  await Order.create({
+    fulfilled: false,
+    userId: 1
+  })
+
+  // Creating Dummy Cart with status Fulfilled
+  await Order.create({
+    fulfilled: true,
+    userId: 1
+  })
+
+  // Create Dummy Order Items
+  await OrderItem.create({
+    orderId: 1,
+    productId: 1,
+    price: 499,
+    quantity: 2,
+  })
+
+  await OrderItem.create({
+    orderId: 1,
+    productId: 2,
+    price: 9999,
+    quantity: 5,
+  })
+
+  await OrderItem.create({
+    orderId: 2,
+    productId: 3,
+    price: 999,
+    quantity: 7,
+  })
+
+
   console.log(`seeded successfully`);
 }
 

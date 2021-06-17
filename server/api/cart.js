@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { default: cartReducer } = require("../../client/store/redux/cart");
 const {
   models: { Product, Order, OrderItem },
 } = require("../db");
@@ -12,6 +11,7 @@ router.get("/", async (req, res, next) => {
       where: {
         fulfilled: false,
       },
+      include: { model: OrderItem, include: { model: Product } },
     });
     res.json(cart);
   } catch (err) {
