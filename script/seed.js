@@ -165,26 +165,6 @@ async function seed() {
     });
   }
 
-  // Creating Dummy Cart with status Unfulfilled
-  await Order.create({
-    fulfilled: false,
-    userId: 1,
-  });
-
-
-  // Creating Dummy Cart with status Fulfilled
-  await Order.create({
-    fulfilled: true,
-    userId: 1,
-  });
-
-  // Creating Dummy Cart with status Unfulfilled
-  await Order.create({
-    fulfilled: false,
-    userId: 11,
-  });
-
-
   // Create Dummy Order Items
   await OrderItem.create({
     orderId: 1,
@@ -201,7 +181,7 @@ async function seed() {
   });
 
   await OrderItem.create({
-    orderId: 2,
+    orderId: 1,
     productId: 3,
     price: 999,
     quantity: 7,
