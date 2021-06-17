@@ -8,11 +8,11 @@ class SingleProduct extends Component {
   }
 
   componentDidMount() {
-    this.props.getProduct();
+    this.props.getProduct(this.props.match.params.id);
   }
   render() {
     const { product } = this.props;
-
+    console.log(product)
     return (
       <div>
         <li key={product.id}>
@@ -34,7 +34,7 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch, { history }) => {
   return {
-    getProduct: () => dispatch(fetchProduct())
+    getProduct: (id) => dispatch(fetchProduct(id))
   };
 };
 
