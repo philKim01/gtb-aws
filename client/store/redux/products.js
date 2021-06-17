@@ -40,10 +40,10 @@ export const setProducts = (products) => {
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
-      // const response = await axios.get('/api/products');
-      // const { data } = response;
-      // dispatch(setProducts(data))
-      dispatch(setProducts(products));
+      const response = await axios.get('/api/products');
+      const { data } = response;
+      dispatch(setProducts(data))
+      // dispatch(setProducts(products));
     } catch (error) {
       console.log('Error fetching products from database');
     }
