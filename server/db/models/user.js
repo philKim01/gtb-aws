@@ -61,10 +61,6 @@ const User = db.define("user", {
     //   notEmpty: true,
     // },
   },
-  isAdmin: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
-  }
 });
 
 module.exports = User;
@@ -78,7 +74,12 @@ User.prototype.correctPassword = function (candidatePwd) {
 };
 
 User.prototype.generateToken = function () {
-  return jwt.sign({ id: this.id }, process.env.JWT);
+  try {
+    return jwt.sign({ id: this.id }, process.env.JWT);
+  } catch (error) {
+    
+  }
+  
 };
 
 /**
@@ -96,12 +97,17 @@ User.authenticate = async function ({ username, password }) {
 
 User.findByToken = async function (token) {
   try {
-    const { id } = await jwt.verify(token, process.env.JWT);
-    const user = User.findByPk(id);
-    if (!user) {
-      throw "nooo";
+    const payload = await jwt.verify(token, process.env.JWT);
+    console.log(payload)
+    const user = await User.findByPk(payload.id);
+    // if (!user) {
+    //   throw "nooo";
+    // }
+
+    if(payload.id && user) {
+      return user;
     }
-    return user;
+    
   } catch (ex) {
     const error = Error("bad token");
     error.status = 401;
