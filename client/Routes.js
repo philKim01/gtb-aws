@@ -6,6 +6,7 @@ import Home from './components/Home';
 import {me} from './store/redux/auth'
 import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct'
+import Cart from './components/Cart';
 
 /**
  * COMPONENT
@@ -34,6 +35,7 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
             <Route exact path="/products" component={AllProducts} />
             <Route path="/products/:id" component={SingleProduct} />
+            <Route exact path="/cart" component={Cart} />
           </Switch>
         )}
       </div>
