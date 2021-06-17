@@ -125,9 +125,9 @@ async function seed() {
   console.log("db synced!");
 
   // Creating Users
-  userFirstNames.forEach((firstName) => {
-    userLastNames.forEach((lastName) => {
-      User.create({
+  for (let firstName of userFirstNames) {
+    for (let lastName of userLastNames) {
+      await User.create({
         // firstName,
         // lastName,
         username: `${firstName}.${lastName}@email.com`,
@@ -137,13 +137,21 @@ async function seed() {
         // state: "New York",
         // zipCode: 12345,
       });
-    });
-  });
+    }
+  }
 
   // Creating Products
-  products.forEach((product) => {
-    Product.create(product);
-  });
+  for (let product of products) {
+    const { name, description, imageUrl, price, stock, category } = product;
+    await Product.create({
+      name,
+      description,
+      imageUrl,
+      price,
+      stock,
+      category,
+    });
+  }
   console.log(`seeded successfully`);
 }
 
