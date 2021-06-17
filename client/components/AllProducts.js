@@ -59,7 +59,7 @@ class AllProducts extends React.Component {
 const mapState = (state) => {
   return {
     products: state.products,
-    isAdmin: !!state.auth.id
+    isAdmin: state.auth.isAdmin
   };
 };
 
