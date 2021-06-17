@@ -1,8 +1,9 @@
 const User = require("../db/models/user");
+const chalk = require("chalk");
 
 const loggedIn = async (req, res, next) => {
   try {
-    const token = req.header.authorization;
+    const token = req.headers.authorization;
     const user = await User.findByToken(token);
     req.user = user;
     next();
