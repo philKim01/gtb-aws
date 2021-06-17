@@ -1,7 +1,10 @@
 import axios from "axios";
 
+const TOKEN = "token";
+
 // ACTION TYPES
 const SET_CART = "SET_CART";
+const CLEAR_CART = "CLEAR_CART";
 
 // ACTION CREATORS
 export const setCart = (cart) => {
@@ -11,14 +14,28 @@ export const setCart = (cart) => {
   };
 };
 
+export const clearCart = () => {
+  return {
+    type: CLEAR_CART,
+  };
+};
+
 // THUNK
 export const fetchCart = () => {
   return async (dispatch) => {
-    try {
-      const { data } = await axios.get("/api/cart");
-      dispatch(setCart(data));
-    } catch (error) {
-      console.error(error);
+    const token = window.localStorage.getItem(TOKEN);
+    console.log(token);
+    if (token) {
+      try {
+        const { data } = await axios.get("/api/cart", {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(setCart(data));
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 };
@@ -35,6 +52,8 @@ const cartReducer = (state = initialState, action) => {
       };
       const total = action.cart.orderItems.reduce(reducer, 0);
       return { total, cartItems: action.cart.orderItems };
+    case CLEAR_CART:
+      return { total: 0, cartItems: [] };
     default:
       return state;
   }
