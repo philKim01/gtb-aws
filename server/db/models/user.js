@@ -61,6 +61,14 @@ const User = db.define("user", {
     //   notEmpty: true,
     // },
   },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true,
+    // },
+  },
 });
 
 module.exports = User;
