@@ -23,3 +23,24 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
+
+//DELETE api/products/:id
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    await product.destroy();
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST api/products
+router.post("/", async (req, res, next) => {
+  try {
+    const newProduct = await Product.create(req.body);
+    res.json(newProduct);
+  } catch (error) {
+    next(error);
+  }
+});
