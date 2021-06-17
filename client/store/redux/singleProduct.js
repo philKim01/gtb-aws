@@ -15,6 +15,7 @@ export const setProduct = (product) => {
 export const fetchProduct = (id) => {
   return async (dispatch) => {
     try {
+      console.log("id = ", id)
       const response = await axios.get(`/api/products/${id}`)
       const { data } = response;
       dispatch(setProduct(data))
