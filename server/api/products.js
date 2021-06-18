@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { models: { Product }} = require('../db')
+const { loggedIn, isAdmin } = require('./gatekeepingMiddleware') 
 module.exports = router
 
 
@@ -25,7 +26,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 //DELETE api/products/:id
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", loggedIn, isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     await product.destroy();
@@ -36,7 +37,7 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 //POST api/products
-router.post("/", async (req, res, next) => {
+router.post("/", loggedIn, isAdmin, async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body);
     res.json(newProduct);
