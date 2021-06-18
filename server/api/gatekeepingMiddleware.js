@@ -1,4 +1,5 @@
 const User = require("../db/models/user");
+const chalk = require("chalk");
 
 const loggedIn = async (req, res, next) => {
   try {

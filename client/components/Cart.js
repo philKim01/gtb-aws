@@ -16,19 +16,23 @@ class Cart extends React.Component {
   }
 
   render() {
-    const { cartItems } = this.props;
+    const { total } = this.props;
+    const cartItems = this.props.cartItems || [];
     return (
-      <ul style={{ listStyleType: "none" }}>
-        {cartItems.map((cartItem) => {
-          return (
-            <li key={cartItem.id}>
-              <p>{cartItem.product.name}</p>
-              <p>{cartItem.price}</p>
-              <p>{cartItem.quantity}</p>
-            </li>
-          );
-        })}
-      </ul>
+      <React.Fragment>
+        <ul style={{ listStyleType: "none" }}>
+          {cartItems.map((cartItem) => {
+            return (
+              <li key={cartItem.id}>
+                <p>{cartItem.product.name}</p>
+                <p>{cartItem.price}</p>
+                <p>{cartItem.quantity}</p>
+              </li>
+            );
+          })}
+        </ul>
+        <p>{`$${total / 100}`}</p>
+      </React.Fragment>
     );
   }
 }
