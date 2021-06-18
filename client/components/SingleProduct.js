@@ -19,7 +19,6 @@ class SingleProduct extends Component {
 
   updateSingleProductState(id, changesMade) {
     this.setState(changesMade);
-    console.log("changesMade = ", changesMade)
     this.props.updateStudent(id, changesMade);
   }
 
@@ -40,7 +39,6 @@ class SingleProduct extends Component {
   }
   render() {
     const { product } = this.props;
-    console.log(product);
     return (
       <div>
         {this.props.isAdmin ? (
