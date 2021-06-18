@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchProducts } from '../store/redux/products';
+import { fetchProducts, fetchProductToDelete } from '../store/redux/products';
 import { Link } from 'react-router-dom';
+import CreateProduct from './CreateProduct';
 
 /**
  * COMPONENT
@@ -9,11 +10,16 @@ import { Link } from 'react-router-dom';
 class AllProducts extends React.Component {
   constructor() {
     super();
-    //This is in preparation for some handlClick events
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
     this.props.getProducts();
+  }
+
+  handleClick(event) {
+    event.preventDefault();
+    this.props.getProductToDelete(event.target.value)
   }
 
   render() {
@@ -21,6 +27,7 @@ class AllProducts extends React.Component {
     return (
       <div>
         {this.props.isAdmin ? (
+          <div>
           <ul style={{ listStyleType: 'none' }}>
             {products.map((product) => {
               return (
@@ -31,11 +38,18 @@ class AllProducts extends React.Component {
                   <h3>{product.name}</h3>
                   <h5>${product.price}</h5>
                   <p>Stock: {product.stock}</p>
+                  <button type="submit" value={product.id} onClick={this.handleClick}>Remove From Stock</button>
+                  
                 </li>
               );
             })}
           </ul>
+          &nbsp; &nbsp; &nbsp;
+          <h4>Add A New Product</h4>
+          <CreateProduct />
+          </div>
         ) : (
+          <div>
           <ul style={{ listStyleType: 'none' }}>
             {products.map((product) => {
               return (
@@ -50,6 +64,7 @@ class AllProducts extends React.Component {
               );
             })}
           </ul>
+          </div>
         )}
       </div>
     );
@@ -65,7 +80,8 @@ const mapState = (state) => {
 
 const mapDisptach = (dispatch, { history }) => {
   return {
-    getProducts: () => dispatch(fetchProducts())
+    getProducts: () => dispatch(fetchProducts()),
+    getProductToDelete: (id) => dispatch(fetchProductToDelete(id, history))
   };
 };
 

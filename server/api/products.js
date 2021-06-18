@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { models: { Product }} = require('../db')
 const { loggedIn, isAdmin } = require('./gatekeepingMiddleware')
+
 module.exports = router
 
 
@@ -25,6 +26,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+
 // UPDATE /api/products/:id
 router.put('/:id', loggedIn, isAdmin, async (req, res, next) => {
   try {
@@ -44,5 +46,24 @@ router.put('/:id', loggedIn, isAdmin, async (req, res, next) => {
     res.status(200).send(updatingProduct);
   } catch (err) {
     next(err);
+
+//DELETE api/products/:id
+router.delete("/:id", loggedIn, isAdmin, async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    await product.destroy();
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST api/products
+router.post("/", loggedIn, isAdmin, async (req, res, next) => {
+  try {
+    const newProduct = await Product.create(req.body);
+    res.json(newProduct);
+  } catch (error) {
+    next(error);
   }
 });
