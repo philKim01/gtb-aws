@@ -12,6 +12,7 @@ router.get('/', loggedIn, isAdmin, async (req, res, next) => {
       // send everything to anyone who asks!
       attributes: ['id', 'username']
     })
+    console.log(users)
     res.json(users)
   } catch (err) {
     next(err)
