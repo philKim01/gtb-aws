@@ -24,7 +24,6 @@ export const clearCart = () => {
 export const fetchCart = () => {
   return async (dispatch) => {
     const token = window.localStorage.getItem(TOKEN);
-    console.log(token);
     if (token) {
       try {
         const { data } = await axios.get("/api/cart", {

@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { models: { User }} = require('../db')
-const { loggedIn, isAdmin } = require('./gatekeepingMiddleware') 
+const { loggedIn, isAdmin } = require('./gatekeepingMiddleware')
 
 module.exports = router
 
@@ -12,7 +12,6 @@ router.get('/', loggedIn, isAdmin, async (req, res, next) => {
       // send everything to anyone who asks!
       attributes: ['id', 'username']
     })
-    console.log(users)
     res.json(users)
   } catch (err) {
     next(err)

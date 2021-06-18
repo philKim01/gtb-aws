@@ -1,15 +1,13 @@
 import axios from "axios";
-const TOKEN = "token"
 
 const TOKEN = "token";
 
 // ACTION TYPES
 
-const SET_PRODUCTS = 'SET_PRODUCTS';
-const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
+const SET_PRODUCTS = "SET_PRODUCTS";
+const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 const DELETE_PRODUCT = "DELETE_PRODUCT";
 const CREATE_PRODUCT = "CREATE_PRODUCT";
-
 
 // ACTION CREATORS
 export const setProducts = (products) => {
@@ -36,7 +34,7 @@ export const createProduct = (product) => {
 export const updateProduct = (product) => {
   return {
     type: UPDATE_PRODUCT,
-    product
+    product,
   };
 };
 
@@ -102,13 +100,13 @@ export const updatingProduct = (id, changesMade) => {
           changesMade,
           {
             headers: {
-              authorization: token
-            }
+              authorization: token,
+            },
           }
         );
         dispatch(updateProduct(product));
       } catch (err) {
-        console.log('Error updating Product');
+        console.log("Error updating Product");
       }
     }
   };
