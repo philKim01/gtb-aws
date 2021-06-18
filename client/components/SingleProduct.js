@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchProduct } from '../store/redux/singleProduct';
+import { updatingProduct } from '../store/redux/products'
 
 class SingleProduct extends Component {
   constructor() {
@@ -18,6 +19,7 @@ class SingleProduct extends Component {
 
   updateSingleProductState(id, changesMade) {
     this.setState(changesMade);
+    console.log("changesMade = ", changesMade)
     this.props.updateStudent(id, changesMade);
   }
 
