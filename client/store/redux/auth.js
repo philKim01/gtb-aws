@@ -38,11 +38,7 @@ export const authenticateLogin =
       const res = await axios.post(`/auth/${method}`, {
         username,
         password,
-      },{
-        headers: {
-          authorization: token,
-        },
-      });
+      },);
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
     } catch (authError) {
@@ -73,11 +69,7 @@ export const authenticateSignup =
         city,
         state,
         zipCode,
-      }, {
-        headers: {
-          authorization: token,
-        },
-      });
+      },);
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
     } catch (authError) {
