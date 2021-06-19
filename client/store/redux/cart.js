@@ -112,7 +112,7 @@ export const deleteCartItem = (id) => {
     const token = window.localStorage.getItem(TOKEN);
     if (token) {
       try {
-        const { data } = await axios.post(`/api/cartItems/${id}`, {
+        const { data } = await axios.delete(`/api/cartItems/${id}`, {
           headers: {
             authorization: token,
           },

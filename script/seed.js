@@ -62,7 +62,7 @@ const products = [
     description:
       "The Game Boy Color was brought out at the tail end of the 90s, landing in late 1998 and following its predecessor, the Game Boy. The release of the Game Boy Color was very exciting as it meant that you could finally play handheld games on a coloured screen! Pokemon in colour; what more could you possibly want!",
     imageUrl:
-      "https://retrododo.com/ezoimgfmt/upload.wikimedia.org/wikipedia/commons/b/bc/Bop_it.jpg?ezimgfmt=rs:450x290/rscb1/ng:webp/ngcb1",
+      "https://cdn11.bigcommerce.com/s-ymgqt/products/31104/images/33950/31104__64948.1621609464.500.750.jpg?c=2",
     price: 4999,
     stock: 50,
     category: "Videogames",
@@ -129,7 +129,7 @@ async function seed() {
       await User.create({
         // firstName,
         // lastName,
-        username: `${firstName}.${lastName}@email.com`,
+        username: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@email.com`,
         password: "graceshopper",
         // streetAddress: "12345 FullStack St",
         // city: "New York",
