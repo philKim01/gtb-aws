@@ -51,7 +51,7 @@ export const fetchProducts = () => {
   };
 };
 
-export const fetchProductToDelete = (id, history) => {
+export const fetchProductToDelete = (id) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem(TOKEN);
     if (token) {
@@ -63,7 +63,6 @@ export const fetchProductToDelete = (id, history) => {
         });
         const productToDelete = response.data;
         dispatch(deleteProduct(productToDelete));
-        history.push("/products");
       } catch (error) {
         console.error(error);
       }

@@ -39,13 +39,13 @@ class AllProducts extends React.Component {
                   <h5>${product.price}</h5>
                   <p>Stock: {product.stock}</p>
                   <button type="submit" value={product.id} onClick={this.handleClick}>Remove From Stock</button>
-                  
+                  <br />
                 </li>
               );
             })}
           </ul>
           &nbsp; &nbsp; &nbsp;
-          <h4>Add A New Product</h4>
+          <h4>Add A New Product <span>(** = required)</span></h4>
           <CreateProduct />
           </div>
         ) : (
