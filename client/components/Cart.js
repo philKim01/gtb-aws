@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchCart } from "../store/redux/cart";
+import { fetchCartItems } from "../store/redux/cart";
 
 /**
  * COMPONENT
@@ -25,7 +25,7 @@ class Cart extends React.Component {
             return (
               <li key={cartItem.id}>
                 <p>{cartItem.product.name}</p>
-                <p>{cartItem.price}</p>
+                <p>{`$${cartItem.price / 100}`}</p>
                 <p>{cartItem.quantity}</p>
               </li>
             );
@@ -46,7 +46,7 @@ const mapState = (state) => {
 
 const mapDisptach = (dispatch) => {
   return {
-    getCart: () => dispatch(fetchCart()),
+    getCart: () => dispatch(fetchCartItems()),
   };
 };
 
