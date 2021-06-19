@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchCart } from "../store/redux/cart";
+import { fetchCartItems, putCartItem } from "../store/redux/cart";
+import CartItem from "./CartItem";
 
 /**
  * COMPONENT
@@ -8,7 +9,6 @@ import { fetchCart } from "../store/redux/cart";
 class Cart extends React.Component {
   constructor() {
     super();
-    //This is in preparation for some handlClick events
   }
 
   componentDidMount() {
@@ -22,13 +22,7 @@ class Cart extends React.Component {
       <React.Fragment>
         <ul style={{ listStyleType: "none" }}>
           {cartItems.map((cartItem) => {
-            return (
-              <li key={cartItem.id}>
-                <p>{cartItem.product.name}</p>
-                <p>{cartItem.price}</p>
-                <p>{cartItem.quantity}</p>
-              </li>
-            );
+            return <CartItem key={cartItem.id} cartItem={cartItem} />;
           })}
         </ul>
         <p>{`$${total / 100}`}</p>
@@ -46,7 +40,9 @@ const mapState = (state) => {
 
 const mapDisptach = (dispatch) => {
   return {
-    getCart: () => dispatch(fetchCart()),
+    getCart: () => dispatch(fetchCartItems()),
+    updateQuantity: (cartItemId, quantity) =>
+      dispatch(putCartItem(cartItemId, quantity)),
   };
 };
 
