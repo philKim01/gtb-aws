@@ -8,8 +8,9 @@ class CreateProduct extends React.Component {
         this.state = {
             name: "",
             description: "",
-            price: Number(""),
-            stock: Number(""),
+            price: "",
+            category: "",
+            stock: "",
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -26,10 +27,11 @@ class CreateProduct extends React.Component {
         }
         this.props.createProduct({ ...this.state})
         this.setState({
-            name: "",
-            description: "",
-            price: Number(""),
-            stock: Number(""),
+          name: "",
+          description: "",
+          price: "",
+          category: "",
+          stock: "",
         })
     }
 
@@ -40,14 +42,14 @@ class CreateProduct extends React.Component {
     }
 
     render() {
-        const { name, description, price, stock } = this.state;
+        const { name, description, price, category, stock } = this.state;
         return (
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="name" className="form-label">Product Name: </label>
             <input
               name="name"
               value={name}
-              placeholder="required"
+              placeholder="**"
               onChange={this.handleChange}
             />
             <br />
@@ -62,14 +64,22 @@ class CreateProduct extends React.Component {
             <input
               name="price"
               value={price}
-              placeholder="required (eg, $12.50 is 1250)"
+              placeholder="**(eg, $12.50 is 1250)"
               onChange={this.handleChange}
             />
             <br />
-            <label htmlFor="stock" placeholder="required" className="form-label">
+            <label htmlFor="category" className="form-label">Category: </label>
+            <input
+              name="category"
+              value={category}
+              placeholder="(e.g.,'technology')"
+              onChange={this.handleChange}
+            />
+            <br />
+            <label htmlFor="stock" className="form-label">
               Stock:
             </label>
-            <input name="stock" value={stock} onChange={this.handleChange} />
+            <input name="stock" value={stock} placeholder="**" onChange={this.handleChange} />
             <br />
             <button type="submit">Add Product</button>
           </form>
