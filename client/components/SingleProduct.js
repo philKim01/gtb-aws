@@ -81,7 +81,7 @@ class SingleProduct extends Component {
             <img src={product.imageUrl} />
             <h3>{product.name}</h3>
             <h5>${product.price}</h5>
-            <p>Stock: {product.inventory}</p>
+            <p>Stock: {product.stock}</p>
           </li>
         )}
       </div>
