@@ -12,7 +12,6 @@ router.get("/", loggedIn, async (req, res, next) => {
     const userId = req.user.id;
     const orders = await Order.findAll({
       where: {
-        fulfilled: true,
         userId,
       },
       include: { model: OrderItem, include: { model: Product } },
@@ -59,7 +58,13 @@ router.put("/:id", loggedIn, async (req, res, next) => {
     let order = await Order.findByPk(orderId);
     order = await order.update({ fulfilled: orderStatus });
 
-    res.sendStatus(200);
+    const updatedOrder = await Order.findOne({
+      where: {
+        id: orderId,
+      },
+      include: { model: OrderItem, include: { model: Product } },
+    });
+    res.json(updatedOrder);
   } catch (err) {
     next(err);
   }

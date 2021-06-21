@@ -26,6 +26,7 @@ class Cart extends React.Component {
           })}
         </ul>
         <p>{`$${total / 100}`}</p>
+        {/* <button type="submit" onClick={} >Place Order</button> */}
       </React.Fragment>
     );
   }
