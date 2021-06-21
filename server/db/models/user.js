@@ -33,6 +33,9 @@ const User = db.define("user", {
   },
   password: {
     type: Sequelize.STRING,
+     // allowNull: false,
+     // validate: {
+      // notEmpty: true,
   },
   streetAddress: {
     type: Sequelize.STRING,
@@ -105,7 +108,7 @@ User.findByToken = async function (token) {
   try {
     const payload = await jwt.verify(token, process.env.JWT);
     const user = await User.findByPk(payload.id);
-    
+
     if (!user) {
       throw "nooo";
     }

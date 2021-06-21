@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchProduct } from '../store/redux/singleProduct';
-import { updatingProduct } from '../store/redux/products'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchProduct } from "../store/redux/singleProduct";
+import { updatingProduct } from "../store/redux/products";
+import { postCartItem, putCartItem } from "../store/redux/cart";
 
 class SingleProduct extends Component {
   constructor() {
     super();
     this.state = {
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       price: 0,
-      stock: 0
+      stock: 0,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,7 +35,7 @@ class SingleProduct extends Component {
       name: product.name,
       description: product.description,
       price: product.price,
-      stock: product.stock
+      stock: product.stock,
     });
   }
   render() {
@@ -44,45 +45,66 @@ class SingleProduct extends Component {
         {this.props.isAdmin ? (
           <div>
             <img src={product.imageUrl} />
-            <form id='update-product' onSubmit={this.handleSubmit}>
-              <label htmlFor='productName'>Product Name:</label>
+            <form id="update-product" onSubmit={this.handleSubmit}>
+              <label htmlFor="productName">Product Name:</label>
               <input
-                type='text'
+                type="text"
                 value={this.state.name}
                 onChange={(evt) => this.setState({ name: evt.target.value })}
               />
-              <label htmlFor='description'>Description:</label>
+              <label htmlFor="description">Description:</label>
               <input
-                type='text'
+                type="text"
                 value={this.state.description}
                 onChange={(evt) =>
                   this.setState({ description: evt.target.value })
                 }
               />
-              <label htmlFor='price'>Price:</label>
+              <label htmlFor="price">Price:</label>
               <input
-                type='integer'
+                type="integer"
                 value={this.state.price}
                 onChange={(evt) => this.setState({ price: evt.target.value })}
               />
-              <label htmlFor='stock'>Stock:</label>
+              <label htmlFor="stock">Stock:</label>
               <input
-                type='integer'
+                type="integer"
                 value={this.state.stock}
                 onChange={(evt) => this.setState({ stock: evt.target.value })}
               />
-              <button type='submit' onClick={this.handleSubmit}>
+              <button type="submit" onClick={this.handleSubmit}>
                 Update Product
               </button>
             </form>
           </div>
         ) : (
-          <li key={product.id}>
-            <img src={product.imageUrl} />
-            <h3>{product.name}</h3>
-            <h5>${product.price}</h5>
-            <p>Stock: {product.stock}</p>
-          </li>
+          <div>
+            <li key={product.id}>
+              <img src={product.imageUrl} />
+              <h3>{product.name}</h3>
+              <h5>${product.price}</h5>
+              <p>Stock: {product.stock}</p>
+            </li>
+            <button
+              type="addToCart"
+              onClick={() => {
+                const isInCart = this.props.cartItems.filter((cartItem) => {
+                  return cartItem.product.id === product.id;
+                });
+                if (isInCart.length === 0) {
+                  this.props.addToCart(product.id, product.price);
+
+                } else {
+                  this.props.updateQuantity(
+                    isInCart[0].id,
+                    isInCart[0].quantity + 1
+                  );
+                }
+              }}
+            >
+              Add To Cart
+            </button>
+          </div>
         )}
       </div>
     );
@@ -92,15 +114,19 @@ class SingleProduct extends Component {
 const mapState = (state) => {
   return {
     product: state.product.product,
-    isAdmin: state.auth.isAdmin
+    isAdmin: state.auth.isAdmin,
+    cartItems: state.cart.cartItems,
   };
 };
 
-const mapDispatch = (dispatch, { history }) => {
+const mapDispatch = (dispatch) => {
   return {
     getProduct: (id) => dispatch(fetchProduct(id)),
-    updateProduct: (id, changesMade) => dispatch(updatingProduct(id, changesMade))
-
+    updateProduct: (id, changesMade) =>
+      dispatch(updatingProduct(id, changesMade)),
+    addToCart: (productId, price) => dispatch(postCartItem(productId, price)),
+    updateQuantity: (cartItemId, quantity) =>
+      dispatch(putCartItem(cartItemId, quantity)),
   };
 };
 
