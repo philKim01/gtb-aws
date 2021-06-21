@@ -41,7 +41,7 @@ class SingleProduct extends Component {
   render() {
     const { product } = this.props;
     return (
-      <div>
+      <React.Fragment>
         {this.props.isAdmin ? (
           <div>
             <img src={product.imageUrl} />
@@ -78,14 +78,7 @@ class SingleProduct extends Component {
             </form>
           </div>
         ) : (
-<<<<<<< HEAD
-          <li key={product.id}>
-            <img src={product.imageUrl} />
-            <h3>{product.name}</h3>
-            <h5>${product.price}</h5>
-            <p>Stock: {product.stock}</p>
-          </li>
-=======
+
           <div>
             <li key={product.id}>
               <img src={product.imageUrl} />
@@ -113,9 +106,8 @@ class SingleProduct extends Component {
               Add To Cart
             </button>
           </div>
->>>>>>> d8263945f675feedb4b6551cd3f0e4a06f161a07
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }
