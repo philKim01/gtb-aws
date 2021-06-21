@@ -89,6 +89,7 @@ class SingleProduct extends Component {
             <button
               type="addToCart"
               onClick={() => {
+                if(this.props.isLoggedIn){
                 const isInCart = this.props.cartItems.filter((cartItem) => {
                   return cartItem.product.id === product.id;
                 });
@@ -101,7 +102,37 @@ class SingleProduct extends Component {
                     isInCart[0].quantity + 1
                   );
                 }
-              }}
+              } else{
+                let localCart = window.localStorage.getItem('cart')
+                if (!localCart){
+                  const productToAdd = Object.assign(product)
+                  productToAdd.quantity = 1;
+                  const initialCart = {
+                    total: product.price,
+                    cartItems: [productToAdd]
+                  }
+
+                  window.localStorage.setItem('cart', JSON.stringify(initialCart))
+                } else{
+                  localCart = JSON.parse(window.localStorage.getItem('cart'));
+                  localCart.total += product.price;
+
+                  const isInLocalCart = localCart.cartItems.filter((cartItem) => {
+                    return cartItem.id === product.id
+                  })
+                  if(isInLocalCart.length){
+                    isInLocalCart[0].quantity += 1;
+                    window.localStorage.setItem('cart', JSON.stringify(localCart))
+                  } else {
+                    const productToAdd = Object.assign(product);
+                    productToAdd.quantity = 1;
+                    localCart.cartItems.push(productToAdd)
+                    window.localStorage.setItem('cart', JSON.stringify(localCart))
+                  }
+
+                }
+
+              }}}
             >
               Add To Cart
             </button>
@@ -117,6 +148,7 @@ const mapState = (state) => {
     product: state.product.product,
     isAdmin: state.auth.isAdmin,
     cartItems: state.cart.cartItems,
+    isLoggedIn: !!state.auth.id
   };
 };
 
