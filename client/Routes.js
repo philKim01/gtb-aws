@@ -9,7 +9,7 @@ import Cart from './components/Cart';
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Orders from './components/Orders';
-
+import GuestCheckout from './components/GuestCheckout';
 /**
  * COMPONENT
  */
@@ -40,6 +40,7 @@ class Routes extends Component {
             <Route exact path="/products" component={AllProducts} />
             <Route path="/products/:id" component={SingleProduct} />
             <Route exact path="/cart" component={Cart} />
+            <Route path='/guestcheckout' component={GuestCheckout} />
           </Switch>
         )}
       </div>
