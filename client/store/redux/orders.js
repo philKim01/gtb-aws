@@ -41,6 +41,7 @@ export const fetchOrders = () => {
             authorization: token,
           },
         });
+        console.log("Data from api-->", data)
         dispatch(setOrders(data));
       } catch (error) {
         console.error(error);
@@ -115,7 +116,7 @@ export const checkout = (id, fulfilled) => {
                 authorization: token,
               },
             }
-          ); 
+          );
           dispatch(updateOrder(putResponse));
           dispatch(createOrder(postResponse));
         } catch (error) {
