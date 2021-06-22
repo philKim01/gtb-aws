@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchProduct } from "../store/redux/singleProduct";
-import { updatingProduct } from "../store/redux/products";
-import { postCartItem, putCartItem } from "../store/redux/cart";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchProduct } from '../store/redux/singleProduct';
+import { updatingProduct } from '../store/redux/products';
+import { postCartItem, putCartItem } from '../store/redux/cart';
 
 class SingleProduct extends Component {
   constructor() {
     super();
     this.state = {
-      name: "",
-      description: "",
+      name: '',
+      description: '',
       price: 0,
-      stock: 0,
+      stock: 0
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +35,7 @@ class SingleProduct extends Component {
       name: product.name,
       description: product.description,
       price: product.price,
-      stock: product.stock,
+      stock: product.stock
     });
   }
   render() {
@@ -45,40 +45,39 @@ class SingleProduct extends Component {
         {this.props.isAdmin ? (
           <div>
             <img src={product.imageUrl} />
-            <form id="update-product" onSubmit={this.handleSubmit}>
-              <label htmlFor="productName">Product Name:</label>
+            <form id='update-product' onSubmit={this.handleSubmit}>
+              <label htmlFor='productName'>Product Name:</label>
               <input
-                type="text"
+                type='text'
                 value={this.state.name}
                 onChange={(evt) => this.setState({ name: evt.target.value })}
               />
-              <label htmlFor="description">Description:</label>
+              <label htmlFor='description'>Description:</label>
               <input
-                type="text"
+                type='text'
                 value={this.state.description}
                 onChange={(evt) =>
                   this.setState({ description: evt.target.value })
                 }
               />
-              <label htmlFor="price">Price:</label>
+              <label htmlFor='price'>Price:</label>
               <input
-                type="integer"
+                type='integer'
                 value={this.state.price}
                 onChange={(evt) => this.setState({ price: evt.target.value })}
               />
-              <label htmlFor="stock">Stock:</label>
+              <label htmlFor='stock'>Stock:</label>
               <input
-                type="integer"
+                type='integer'
                 value={this.state.stock}
                 onChange={(evt) => this.setState({ stock: evt.target.value })}
               />
-              <button type="submit" onClick={this.handleSubmit}>
+              <button type='submit' onClick={this.handleSubmit}>
                 Update Product
               </button>
             </form>
           </div>
         ) : (
-
           <div>
             <li key={product.id}>
               <img src={product.imageUrl} />
@@ -87,52 +86,61 @@ class SingleProduct extends Component {
               <p>Stock: {product.stock}</p>
             </li>
             <button
-              type="addToCart"
+              type='addToCart'
               onClick={() => {
-                if(this.props.isLoggedIn){
-                const isInCart = this.props.cartItems.filter((cartItem) => {
-                  return cartItem.product.id === product.id;
-                });
-                if (isInCart.length === 0) {
-                  this.props.addToCart(product.id, product.price);
-
-                } else {
-                  this.props.updateQuantity(
-                    isInCart[0].id,
-                    isInCart[0].quantity + 1
-                  );
-                }
-              } else{
-                let localCart = window.localStorage.getItem('cart')
-                if (!localCart){
-                  const productToAdd = Object.assign(product)
-                  productToAdd.quantity = 1;
-                  const initialCart = {
-                    total: product.price,
-                    cartItems: [productToAdd]
-                  }
-
-                  window.localStorage.setItem('cart', JSON.stringify(initialCart))
-                } else{
-                  localCart = JSON.parse(window.localStorage.getItem('cart'));
-                  localCart.total += product.price;
-
-                  const isInLocalCart = localCart.cartItems.filter((cartItem) => {
-                    return cartItem.id === product.id
-                  })
-                  if(isInLocalCart.length){
-                    isInLocalCart[0].quantity += 1;
-                    window.localStorage.setItem('cart', JSON.stringify(localCart))
+                if (this.props.isLoggedIn) {
+                  const isInCart = this.props.cartItems.filter((cartItem) => {
+                    return cartItem.product.id === product.id;
+                  });
+                  if (isInCart.length === 0) {
+                    this.props.addToCart(product.id, product.price);
                   } else {
+                    this.props.updateQuantity(
+                      isInCart[0].id,
+                      isInCart[0].quantity + 1
+                    );
+                  }
+                } else {
+                  let localCart = window.localStorage.getItem('cart');
+                  if (!localCart) {
                     const productToAdd = Object.assign(product);
                     productToAdd.quantity = 1;
-                    localCart.cartItems.push(productToAdd)
-                    window.localStorage.setItem('cart', JSON.stringify(localCart))
+                    const initialCart = {
+                      total: product.price,
+                      cartItems: [productToAdd]
+                    };
+
+                    window.localStorage.setItem(
+                      'cart',
+                      JSON.stringify(initialCart)
+                    );
+                  } else {
+                    localCart = JSON.parse(window.localStorage.getItem('cart'));
+                    localCart.total += product.price;
+
+                    const isInLocalCart = localCart.cartItems.filter(
+                      (cartItem) => {
+                        return cartItem.id === product.id;
+                      }
+                    );
+                    if (isInLocalCart.length) {
+                      isInLocalCart[0].quantity += 1;
+                      window.localStorage.setItem(
+                        'cart',
+                        JSON.stringify(localCart)
+                      );
+                    } else {
+                      const productToAdd = Object.assign(product);
+                      productToAdd.quantity = 1;
+                      localCart.cartItems.push(productToAdd);
+                      window.localStorage.setItem(
+                        'cart',
+                        JSON.stringify(localCart)
+                      );
+                    }
                   }
-
                 }
-
-              }}}
+              }}
             >
               Add To Cart
             </button>
@@ -159,7 +167,7 @@ const mapDispatch = (dispatch) => {
       dispatch(updatingProduct(id, changesMade)),
     addToCart: (productId, price) => dispatch(postCartItem(productId, price)),
     updateQuantity: (cartItemId, quantity) =>
-      dispatch(putCartItem(cartItemId, quantity)),
+      dispatch(putCartItem(cartItemId, quantity))
   };
 };
 
