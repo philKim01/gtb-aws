@@ -21,15 +21,12 @@ class CartItem extends React.Component {
   }
 
   handleChange(event) {
+    this.setState({
+      quantity: event.target.value
+    });
     if (this.props.isLoggedIn) {
-      this.setState({
-        quantity: event.target.value
-      });
       this.props.updateQuantity(this.props.cartItem.id, event.target.value);
     } else {
-      this.setState({
-        quantity: event.target.value
-      });
       const localCart = JSON.parse(window.localStorage.getItem('cart'));
       const updatedLocalCartItems = localCart.cartItems.map((cartItem) => {
         if (cartItem.id === this.props.cartItem.id) {
@@ -38,11 +35,12 @@ class CartItem extends React.Component {
         return cartItem;
       });
       localCart.total = updatedLocalCartItems.reduce((total, cartItem) => {
-        return total + cartItem.price * cartItem.quantity
-      },
-      0);
+        return total + cartItem.price * cartItem.quantity;
+      }, 0);
       localCart.cartItems = updatedLocalCartItems;
-      window.localStorage.setItem('cart', JSON.stringify(localCart))
+      window.localStorage.setItem('cart', JSON.stringify(localCart));
+
+      this.props.updateTotal();
     }
   }
 
@@ -85,7 +83,7 @@ class CartItem extends React.Component {
           <li key={cartItem.id}>
             <p>{cartItem.name}</p>
             <p>{`$${cartItem.price / 100}`}</p>
-            <p>{cartItem.quantity}</p>
+            <p>{this.state.quantity}</p>
 
             <label htmlFor='quantity'>Qty:</label>
             <select

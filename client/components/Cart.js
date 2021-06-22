@@ -9,19 +9,41 @@ import CartItem from './CartItem';
 class Cart extends React.Component {
   constructor() {
     super();
+    this.state = {
+      total: 0
+    };
+    this.updateTotal = this.updateTotal.bind(this)
   }
 
   componentDidMount() {
     this.props.getCart();
+
+    if (!this.props.isLoggedIn) {
+
+      const localCart = JSON.parse(window.localStorage.getItem('cart'))
+
+      // logged in users dont use local state, only for guest users
+      this.setState({
+        total: localCart.total
+      });
+      console.log("state = ", localCart.total)
+    }
+  }
+  updateTotal() {
+    const localCart = JSON.parse(window.localStorage.getItem('cart'))
+    this.setState({
+      total: localCart.total
+    })
   }
 
   render() {
     const { total } = this.props;
     const cartItems = this.props.cartItems || [];
 
-    const localCart = JSON.parse(window.localStorage.getItem('cart'))
-    if(!localCart && !this.props.loggedIn){
-      return (<h2>Cart is Empty</h2>)
+    const localCart = JSON.parse(window.localStorage.getItem('cart'));
+
+    if (!localCart && !this.props.loggedIn) {
+      return <h2>Cart is Empty</h2>;
     }
     return (
       <React.Fragment>
@@ -38,9 +60,9 @@ class Cart extends React.Component {
         ) : (
           <React.Fragment>
             {localCart.cartItems.map((cartItem) => {
-              return <CartItem key={cartItem.id} cartItem={cartItem} />
+              return <CartItem key={cartItem.id} cartItem={cartItem} updateTotal={this.updateTotal}/>;
             })}
-            <p>{`$${localCart.total / 100}`}</p>
+            <p>{`$${this.state.total / 100}`}</p>
           </React.Fragment>
         )}
       </React.Fragment>
