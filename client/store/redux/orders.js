@@ -93,6 +93,38 @@ export const putOrder = (id, fulfilled) => {
   };
 };
 
+export const checkout = (id, fulfilled) => {
+    return async (dispatch) => {
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        try {
+          const { data: putResponse } = await axios.put(
+            `/api/orders/${id}`,
+            { fulfilled },
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          const { data: postResponse } = await axios.post(
+            "/api/orders",
+            {},
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          ); 
+          dispatch(updateOrder(putResponse));
+          dispatch(createOrder(postResponse));
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+  };
+
 const initialState = [];
 
 // REDUCER
