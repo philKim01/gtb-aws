@@ -13,12 +13,12 @@ class UserOrderConfirmation extends React.Component {
 
   render() {
     let { cartItems, total } = this.props.cart;
-    let { email, firstName, lastName, streetAddress, city, state, zipCode } =
+    let { username, firstName, lastName, streetAddress, city, state, zipCode } =
       this.props.user;
     return (
       <React.Fragment>
         <h1>Order confirmed!</h1>
-        <p>Email: {email}</p>
+        <p>Email: {username}</p>
         <p>First Name: {firstName}</p>
         <p>Last Name: {lastName}</p>
         <p>
