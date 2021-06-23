@@ -10,68 +10,69 @@ const SALT_ROUNDS = 5;
 const User = db.define("user", {
   firstName: {
     type: Sequelize.STRING,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   lastName: {
     type: Sequelize.STRING,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   username: {
     type: Sequelize.STRING,
     unique: true,
-    // allowNull: false,
+    allowNull: false,
     validate: {
-      // notEmpty: true,
+      notEmpty: true,
       isEmail: true,
     },
   },
   password: {
     type: Sequelize.STRING,
-     // allowNull: false,
-     // validate: {
-      // notEmpty: true,
+     allowNull: false,
+     validate: {
+      notEmpty: true,
+     }
   },
   streetAddress: {
     type: Sequelize.STRING,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   city: {
     type: Sequelize.STRING,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   state: {
     type: Sequelize.STRING,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   zipCode: {
     type: Sequelize.INTEGER,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
 });
 

@@ -17,6 +17,10 @@ router.get("/", loggedIn, async (req, res, next) => {
       },
       include: { model: OrderItem, include: { model: Product } },
     });
+    if (!cart) {
+      next({ status: 500, message: "Database query failed." });
+    }
+
     res.json(cart.orderItems);
   } catch (err) {
     next(err);
@@ -33,6 +37,9 @@ router.post("/", loggedIn, async (req, res, next) => {
         userId: userId,
       },
     });
+    if (!currentCart) {
+      next({ status: 500, message: "Database query failed." });
+    }
 
     const orderId = currentCart.id;
     const productId = parseInt(req.body.productId);
@@ -51,6 +58,9 @@ router.post("/", loggedIn, async (req, res, next) => {
       },
       include: { model: Product },
     });
+    if (!addedCartItem) {
+      next({ status: 500, message: "Database query failed." });
+    }
 
     res.json(addedCartItem);
   } catch (err) {
@@ -64,14 +74,20 @@ router.put("/:id", loggedIn, async (req, res, next) => {
     const cartItemId = parseInt(req.params.id);
     const quantity = parseInt(req.body.quantity);
     let cartItem = await OrderItem.findByPk(cartItemId);
-    cartItem = await cartItem.update({ quantity: quantity });
+    if (!cartItem) {
+      next({ status: 500, message: "Database query failed." });
+    }
 
+    await cartItem.update({ quantity: quantity });
     const updatedCartItem = await OrderItem.findOne({
       where: {
         id: cartItemId,
       },
       include: { model: Product },
     });
+    if (!updatedCartItem) {
+      next({ status: 500, message: "Database query failed." });
+    }
 
     res.json(updatedCartItem);
   } catch (err) {
@@ -84,6 +100,9 @@ router.delete("/:id", loggedIn, async (req, res, next) => {
   try {
     const cartItemId = parseInt(req.params.id);
     const deletedCartItem = await OrderItem.findByPk(cartItemId);
+    if (!deletedCartItem) {
+      next({ status: 500, message: "Database query failed." });
+    }
     await deletedCartItem.destroy();
     res.json(deletedCartItem);
   } catch (err) {
