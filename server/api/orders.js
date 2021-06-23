@@ -16,13 +16,16 @@ router.get("/", loggedIn, async (req, res, next) => {
       },
       include: { model: OrderItem, include: { model: Product } },
     });
+    if (!orders) {
+      next({ status: 500, message: "Database query failed." });
+    }
     res.json(orders);
   } catch (err) {
     next(err);
   }
 });
 
-// POST /api/orders/
+// POST /api/orders
 router.post("/", loggedIn, async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -56,14 +59,21 @@ router.put("/:id", loggedIn, async (req, res, next) => {
     const orderStatus = req.body.fulfilled;
     const orderId = parseInt(req.params.id);
     let order = await Order.findByPk(orderId);
-    order = await order.update({ fulfilled: orderStatus });
+    if (!order) {
+      next({ status: 500, message: "Database query failed." });
+    }
 
+    await order.update({ fulfilled: orderStatus });
     const updatedOrder = await Order.findOne({
       where: {
         id: orderId,
       },
       include: { model: OrderItem, include: { model: Product } },
     });
+    if (!updatedOrder) {
+      next({ status: 500, message: "Database query failed." });
+    }
+
     res.json(updatedOrder);
   } catch (err) {
     next(err);

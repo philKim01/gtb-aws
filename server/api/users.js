@@ -12,6 +12,9 @@ router.get('/', loggedIn, isAdmin, async (req, res, next) => {
       // send everything to anyone who asks!
       attributes: ['id', 'username']
     })
+    if (!users) {
+      next({ status: 500, message: "Database query failed." });
+    }
     res.json(users)
   } catch (err) {
     next(err)

@@ -10,6 +10,9 @@ module.exports = router;
 router.get("/", async (req, res, next) => {
   try {
     const products = await Product.findAll();
+    if (!products) {
+      next({ status: 500, message: "Database query failed." });
+    }
     res.json(products);
   } catch (err) {
     next(err);
@@ -21,7 +24,10 @@ router.get("/:id", async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     const product = await Product.findByPk(id);
-    res.send(product);
+    if (!product) {
+      next({ status: 500, message: "Database query failed." });
+    }
+    res.json(product);
   } catch (err) {
     next(err);
   }
@@ -33,8 +39,7 @@ router.put("/:id", loggedIn, isAdmin, async (req, res, next) => {
     const { id } = req.params;
     const updatingProduct = await Product.findByPk(id);
     if (!updatingProduct) {
-      res.sendStatus(404);
-      return;
+      next({ status: 500, message: "Database query failed." });
     }
     const { name, description, price, stock } = req.body;
     await updatingProduct.update({
@@ -43,7 +48,7 @@ router.put("/:id", loggedIn, isAdmin, async (req, res, next) => {
       price,
       stock,
     });
-    res.status(200).send(updatingProduct);
+    res.json(updatingProduct);
   } catch (err) {
     next(err);
   }
@@ -53,6 +58,9 @@ router.put("/:id", loggedIn, isAdmin, async (req, res, next) => {
 router.delete("/:id", loggedIn, isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      next({ status: 500, message: "Database query failed." });
+    }
     await product.destroy();
     res.json(product);
   } catch (error) {
@@ -64,6 +72,9 @@ router.delete("/:id", loggedIn, isAdmin, async (req, res, next) => {
 router.post("/", loggedIn, isAdmin, async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body);
+    if (!newProduct) {
+      next({ status: 500, message: "Database query failed." });
+    }
     res.json(newProduct);
   } catch (error) {
     next(error);
