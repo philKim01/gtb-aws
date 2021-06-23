@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchProduct } from '../store/redux/singleProduct';
-import { updatingProduct } from '../store/redux/products';
-import { postCartItem, putCartItem } from '../store/redux/cart';
-import penniesToDollars from '../Functions/PenniesToDollars';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchProduct } from "../store/redux/singleProduct";
+import { updatingProduct } from "../store/redux/products";
+import { postCartItem, putCartItem } from "../store/redux/cart";
+import penniesToDollars from "../Functions/PenniesToDollars";
+import Button from "@material-ui/core/Button";
 
 class SingleProduct extends Component {
   constructor() {
     super();
     this.state = {
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       price: 0,
-      stock: 0
+      stock: 0,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +37,7 @@ class SingleProduct extends Component {
       name: product.name,
       description: product.description,
       price: product.price,
-      stock: product.stock
+      stock: product.stock,
     });
   }
   render() {
@@ -46,47 +47,48 @@ class SingleProduct extends Component {
         {this.props.isAdmin ? (
           <div>
             <img src={product.imageUrl} />
-            <form id='update-product' onSubmit={this.handleSubmit}>
-              <label htmlFor='productName'>Product Name:</label>
+            <form id="update-product" onSubmit={this.handleSubmit}>
+              <label htmlFor="productName">Product Name:</label>
               <input
-                type='text'
+                type="text"
                 value={this.state.name}
                 onChange={(evt) => this.setState({ name: evt.target.value })}
               />
-              <label htmlFor='description'>Description:</label>
+              <label htmlFor="description">Description:</label>
               <input
-                type='text'
+                type="text"
                 value={this.state.description}
                 onChange={(evt) =>
                   this.setState({ description: evt.target.value })
                 }
               />
-              <label htmlFor='price'>Price:</label>
+              <label htmlFor="price">Price:</label>
               <input
-                type='integer'
+                type="integer"
                 value={penniesToDollars(this.state.price)}
                 onChange={(evt) => this.setState({ price: evt.target.value })}
               />
-              <label htmlFor='stock'>Stock:</label>
+              <label htmlFor="stock">Stock:</label>
               <input
-                type='integer'
+                type="integer"
                 value={this.state.stock}
                 onChange={(evt) => this.setState({ stock: evt.target.value })}
               />
-              <button type='submit' onClick={this.handleSubmit}>
+              <button type="submit" onClick={this.handleSubmit}>
                 Update Product
               </button>
             </form>
           </div>
         ) : (
-          <div>
-            <li key={product.id}>
-              <img src={product.imageUrl} />
-              <h3>{product.name}</h3>
-              <h5>{penniesToDollars(product.price)}</h5>
-            </li>
-            <button
-              type='addToCart'
+          <div className="singleProduct" key={product.id}>
+            <h3 className="productName">{product.name}</h3>
+            <p className="productDetails">{penniesToDollars(product.price)}</p>
+            <img src={product.imageUrl} />
+            <p className="productDetails">{product.description}</p>
+            <Button
+              variant="contained"
+              color="default"
+              type="addToCart"
               onClick={() => {
                 if (this.props.isLoggedIn) {
                   const isInCart = this.props.cartItems.filter((cartItem) => {
@@ -101,21 +103,21 @@ class SingleProduct extends Component {
                     );
                   }
                 } else {
-                  let localCart = window.localStorage.getItem('cart');
+                  let localCart = window.localStorage.getItem("cart");
                   if (!localCart) {
                     const productToAdd = Object.assign(product);
                     productToAdd.quantity = 1;
                     const initialCart = {
                       total: product.price,
-                      cartItems: [productToAdd]
+                      cartItems: [productToAdd],
                     };
 
                     window.localStorage.setItem(
-                      'cart',
+                      "cart",
                       JSON.stringify(initialCart)
                     );
                   } else {
-                    localCart = JSON.parse(window.localStorage.getItem('cart'));
+                    localCart = JSON.parse(window.localStorage.getItem("cart"));
                     localCart.total += product.price;
 
                     const isInLocalCart = localCart.cartItems.filter(
@@ -126,7 +128,7 @@ class SingleProduct extends Component {
                     if (isInLocalCart.length) {
                       isInLocalCart[0].quantity += 1;
                       window.localStorage.setItem(
-                        'cart',
+                        "cart",
                         JSON.stringify(localCart)
                       );
                     } else {
@@ -134,7 +136,7 @@ class SingleProduct extends Component {
                       productToAdd.quantity = 1;
                       localCart.cartItems.push(productToAdd);
                       window.localStorage.setItem(
-                        'cart',
+                        "cart",
                         JSON.stringify(localCart)
                       );
                     }
@@ -143,7 +145,7 @@ class SingleProduct extends Component {
               }}
             >
               Add To Cart
-            </button>
+            </Button>
           </div>
         )}
       </React.Fragment>
@@ -156,7 +158,7 @@ const mapState = (state) => {
     product: state.product.product,
     isAdmin: state.auth.isAdmin,
     cartItems: state.cart.cartItems,
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
   };
 };
 
@@ -167,7 +169,7 @@ const mapDispatch = (dispatch) => {
       dispatch(updatingProduct(id, changesMade)),
     addToCart: (productId, price) => dispatch(postCartItem(productId, price)),
     updateQuantity: (cartItemId, quantity) =>
-      dispatch(putCartItem(cartItemId, quantity))
+      dispatch(putCartItem(cartItemId, quantity)),
   };
 };
 

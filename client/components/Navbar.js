@@ -5,8 +5,8 @@ import { logout } from "../store/redux/auth";
 import { clearCart } from "../store/redux/cart";
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
-  <div>
-    <h1>Grace's Toy Barn</h1>
+  <div className="navbar">
+    <img className="logo" src="https://i.imgur.com/iUy819w.png" alt="Logo"/>
     <nav>
       {isLoggedIn ? (
         <div>
@@ -29,7 +29,6 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         </div>
       )}
     </nav>
-    <hr />
   </div>
 );
 

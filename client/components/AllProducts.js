@@ -1,10 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { fetchProducts, fetchProductToDelete } from '../store/redux/products';
-import { Link } from 'react-router-dom';
-import CreateProduct from './CreateProduct';
-import { postCartItem, putCartItem } from '../store/redux/cart';
-import penniesToDollars from '../Functions/PenniesToDollars';
+import React from "react";
+import { connect } from "react-redux";
+import { fetchProducts, fetchProductToDelete } from "../store/redux/products";
+import { Link } from "react-router-dom";
+import CreateProduct from "./CreateProduct";
+import { postCartItem, putCartItem } from "../store/redux/cart";
+import penniesToDollars from "../Functions/PenniesToDollars";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 /**
  * COMPONENT
@@ -30,18 +32,18 @@ class AllProducts extends React.Component {
       <div>
         {this.props.isAdmin ? (
           <div>
-            <ul style={{ listStyleType: 'none' }}>
+            <ul style={{ listStyleType: "none" }}>
               {products.map((product) => {
                 return (
                   <li key={product.id}>
                     <Link to={`/products/${product.id}`}>
-                      <img src={product.imageUrl} />
+                        <img src={product.imageUrl} />
                     </Link>
                     <h3>{product.name}</h3>
                     <h5>{penniesToDollars(product.price)}</h5>
                     <p>Stock: {product.stock}</p>
                     <button
-                      type='submit'
+                      type="submit"
                       value={product.id}
                       onClick={this.handleClick}
                     >
@@ -60,19 +62,19 @@ class AllProducts extends React.Component {
           </div>
         ) : (
           <div>
-            <ul style={{ listStyleType: 'none' }}>
+            <Grid container spacing={10} justify="center">
               {products.map((product) => {
                 return (
-                  <React.Fragment>
-                    <li key={product.id}>
-                      <Link to={`/products/${product.id}`}>
-                        <img src={product.imageUrl} />
-                      </Link>
-                      <h3>{product.name}</h3>
-                      <h5>{penniesToDollars(product.price)}</h5>
-                    </li>
-                    <button
-                      type='addToCart'
+                  <Grid item key={product.id}>
+                    <h3 className="productName">{product.name}</h3>
+                    <p className="productDetails">{penniesToDollars(product.price)}</p>
+                    <Link to={`/products/${product.id}`}>
+                      <img src={product.imageUrl} />
+                    </Link>
+                    <Button
+                      variant="contained"
+                      color="default"
+                      type="addToCart"
                       onClick={() => {
                         if (this.props.isLoggedIn) {
                           const isInCart = this.props.cartItems.filter(
@@ -89,22 +91,22 @@ class AllProducts extends React.Component {
                             );
                           }
                         } else {
-                          let localCart = window.localStorage.getItem('cart');
+                          let localCart = window.localStorage.getItem("cart");
                           if (!localCart) {
                             const productToAdd = Object.assign(product);
                             productToAdd.quantity = 1;
                             const initialCart = {
                               total: product.price,
-                              cartItems: [productToAdd]
+                              cartItems: [productToAdd],
                             };
 
                             window.localStorage.setItem(
-                              'cart',
+                              "cart",
                               JSON.stringify(initialCart)
                             );
                           } else {
                             localCart = JSON.parse(
-                              window.localStorage.getItem('cart')
+                              window.localStorage.getItem("cart")
                             );
                             localCart.total += product.price;
 
@@ -116,7 +118,7 @@ class AllProducts extends React.Component {
                             if (isInLocalCart.length) {
                               isInLocalCart[0].quantity += 1;
                               window.localStorage.setItem(
-                                'cart',
+                                "cart",
                                 JSON.stringify(localCart)
                               );
                             } else {
@@ -124,7 +126,7 @@ class AllProducts extends React.Component {
                               productToAdd.quantity = 1;
                               localCart.cartItems.push(productToAdd);
                               window.localStorage.setItem(
-                                'cart',
+                                "cart",
                                 JSON.stringify(localCart)
                               );
                             }
@@ -133,11 +135,11 @@ class AllProducts extends React.Component {
                       }}
                     >
                       Add To Cart
-                    </button>
-                  </React.Fragment>
+                    </Button>
+                  </Grid>
                 );
               })}
-            </ul>
+            </Grid>
           </div>
         )}
       </div>
@@ -150,7 +152,7 @@ const mapState = (state) => {
     products: state.products,
     isAdmin: state.auth.isAdmin,
     isLoggedIn: !!state.auth.id,
-    cartItems: state.cart.cartItems
+    cartItems: state.cart.cartItems,
   };
 };
 
@@ -160,7 +162,7 @@ const mapDisptach = (dispatch, { history }) => {
     getProductToDelete: (id) => dispatch(fetchProductToDelete(id, history)),
     addToCart: (productId, price) => dispatch(postCartItem(productId, price)),
     updateQuantity: (cartItemId, quantity) =>
-      dispatch(putCartItem(cartItemId, quantity))
+      dispatch(putCartItem(cartItemId, quantity)),
   };
 };
 
