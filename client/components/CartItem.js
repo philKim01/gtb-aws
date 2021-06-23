@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { deleteCartItem, putCartItem } from '../store/redux/cart';
-
+import penniesToDollars from '../Functions/PenniesToDollars';
 /**
  * COMPONENT
  */
@@ -51,7 +51,7 @@ class CartItem extends React.Component {
         {this.props.isLoggedIn ? (
           <li key={cartItem.id}>
             <p>{cartItem.product.name}</p>
-            <p>{`$${cartItem.price / 100}`}</p>
+            <p>{penniesToDollars(cartItem.price)}</p>
             <p>{cartItem.quantity}</p>
 
             <label htmlFor='quantity'>Qty:</label>
@@ -82,7 +82,7 @@ class CartItem extends React.Component {
         ) : (
           <li key={cartItem.id}>
             <p>{cartItem.name}</p>
-            <p>{`$${cartItem.price / 100}`}</p>
+            <p>{penniesToDollars(cartItem.price)}</p>
             <p>{this.state.quantity}</p>
 
             <label htmlFor='quantity'>Qty:</label>
