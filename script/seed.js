@@ -141,14 +141,14 @@ async function seed() {
 
   // Add Admin User for Testing
   await User.create({
-    // firstName,
-    // lastName,
+    firstName: "Grace",
+    lastName: "Shopper",
     username: `admin@email.com`,
     password: "graceshopper",
-    // streetAddress: "12345 FullStack St",
-    // city: "New York",
-    // state: "New York",
-    // zipCode: 12345,
+    streetAddress: "12345 FullStack St",
+    city: "New York",
+    state: "New York",
+    zipCode: 12345,
     isAdmin: true,
   });
 
