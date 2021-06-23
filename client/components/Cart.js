@@ -51,14 +51,12 @@ class Cart extends React.Component {
     const cartItems = this.props.cartItems;
     const localCart = JSON.parse(window.localStorage.getItem("cart"));
     return this.props.isLoggedIn ? (
-      <React.Fragment>
+      <div className="cart-container">
         {" "}
-        <ul style={{ listStyleType: "none" }}>
-          {cartItems.map((cartItem) => {
-            return <CartItem key={cartItem.id} cartItem={cartItem} />;
-          })}
-        </ul>
-        <p>{`${penniesToDollars(total)}`}</p>
+        {cartItems.map((cartItem) => {
+          return <CartItem key={cartItem.id} cartItem={cartItem} />;
+        })}
+        <p className="productDetails">{`Total: ${penniesToDollars(total)}`}</p>
         <button
           onClick={() => {
             this.setState({
@@ -73,9 +71,9 @@ class Cart extends React.Component {
         >
           Place Order
         </button>
-      </React.Fragment>
+      </div>
     ) : (
-      <React.Fragment>
+      <div className="cart-container">
         {localCart.cartItems.map((cartItem) => {
           return (
             <CartItem
@@ -85,26 +83,30 @@ class Cart extends React.Component {
             />
           );
         })}
-        <p>{`${penniesToDollars(total)}`}</p>
+        <p className="productDetails">{`Total: ${penniesToDollars(
+          this.state.total
+        )}`}</p>
         <div>
           <Link to="/guestcheckout">
             <button>Checkout</button>
           </Link>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 
   render() {
     const localCart = JSON.parse(window.localStorage.getItem("cart"));
     if (!localCart && !this.props.isLoggedIn) {
-      return <h2>Cart is Empty</h2>;
+      return <h2 className="empty-cart">Cart is Empty</h2>;
     }
     if (this.props.isLoggedIn && this.props.total === 0) {
-      return <h2>Cart is Empty</h2>;
+      return <h2 className="empty-cart">Cart is Empty</h2>;
     }
-    if (localCart.total === 0 && !this.props.isLoggedIn) {
-      return <h2>Cart is Empty</h2>;
+    if (!this.props.isLoggedIn) {
+      if (localCart.total === 0) {
+        return <h2 className="empty-cart">Cart is Empty</h2>;
+      }
     }
     return (
       <React.Fragment>

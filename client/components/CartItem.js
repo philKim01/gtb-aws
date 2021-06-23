@@ -1,7 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { deleteCartItem, putCartItem } from '../store/redux/cart';
-import penniesToDollars from '../Functions/PenniesToDollars';
+import React from "react";
+import { connect } from "react-redux";
+import { deleteCartItem, putCartItem } from "../store/redux/cart";
+import penniesToDollars from "../Functions/PenniesToDollars";
 
 /**
  * COMPONENT
@@ -50,85 +50,91 @@ class CartItem extends React.Component {
     return (
       <React.Fragment>
         {this.props.isLoggedIn ? (
-          <li key={cartItem.id}>
-            <p>{cartItem.product.name}</p>
-            <p>{penniesToDollars(cartItem.price)}</p>
-            <p>{cartItem.quantity}</p>
+          <div key={cartItem.id}>
+            <p className="productName">{cartItem.product.name}</p>
+            <p className="productDetails">{penniesToDollars(cartItem.price)}</p>
+            <div className="qty-container">
+              <label className="productDetails" htmlFor="quantity">
+                Qty:{" "}
+              </label>
+              <select
+                name="quantity"
+                id="quantity"
+                value={this.state.quantity}
+                onChange={this.handleChange}
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
 
-            <label htmlFor="quantity">Qty:</label>
-            <select
-              name="quantity"
-              id="quantity"
-              value={this.state.quantity}
-              onChange={this.handleChange}
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>
-            <button
-              type="delete"
-              onClick={() => this.props.removeFromCart(cartItem.id)}
-            >
-              Remove From Cart
-            </button>
-          </li>
+              <button
+                type="delete"
+                onClick={() => this.props.removeFromCart(cartItem.id)}
+              >
+                Remove From Cart
+              </button>
+            </div>
+          </div>
         ) : (
-          <li key={cartItem.id}>
-            <p>{cartItem.name}</p>
-            <p>{penniesToDollars(cartItem.price)}</p>
-            <p>{this.state.quantity}</p>
+          <div key={cartItem.id}>
+            <p className="productName">{cartItem.name}</p>
+            <p className="productDetails">{penniesToDollars(cartItem.price)}</p>
+            <div className="qty-container">
+              <label className="productDetails" htmlFor="quantity">
+                Qty:{" "}
+              </label>
+              <select
+                name="quantity"
+                id="quantity"
+                value={this.state.quantity}
+                onChange={this.handleChange}
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
 
-            <label htmlFor="quantity">Qty:</label>
-            <select
-              name="quantity"
-              id="quantity"
-              value={this.state.quantity}
-              onChange={this.handleChange}
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>
-            <button
-              type="delete"
-              onClick={() => {
-                const guestCart = JSON.parse(
-                  window.localStorage.getItem("cart")
-                );
-                const newGuestCartItems = guestCart.cartItems.filter(
-                  (guestCartItem) => {
-                    return guestCartItem.id !== cartItem.id;
-                  }
-                );
-                window.localStorage.setItem(
-                  "cart",
-                  JSON.stringify({
-                    total: (guestCart.total -=
-                      cartItem.price * cartItem.quantity),
-                    cartItems: newGuestCartItems,
-                  })
-                );
-                this.props.updateTotal();
-              }}
-            >
-              Remove From Cart
-            </button>
-          </li>
+              <button
+                type="delete"
+                onClick={() => {
+                  const guestCart = JSON.parse(
+                    window.localStorage.getItem("cart")
+                  );
+                  const newGuestCartItems = guestCart.cartItems.filter(
+                    (guestCartItem) => {
+                      return guestCartItem.id !== cartItem.id;
+                    }
+                  );
+                  window.localStorage.setItem(
+                    "cart",
+                    JSON.stringify({
+                      total: (guestCart.total -=
+                        cartItem.price * cartItem.quantity),
+                      cartItems: newGuestCartItems,
+                    })
+                  );
+                  this.props.updateTotal();
+                }}
+              >
+                Remove From Cart
+              </button>
+            </div>
+          </div>
         )}
       </React.Fragment>
     );

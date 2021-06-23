@@ -16,7 +16,7 @@ class UserOrderConfirmation extends React.Component {
     let { username, firstName, lastName, streetAddress, city, state, zipCode } =
       this.props.user;
     return (
-      <React.Fragment>
+      <div className="order-confirmation">
         <h1>Order confirmed!</h1>
         <p>Email: {username}</p>
         <p>First Name: {firstName}</p>
@@ -33,7 +33,7 @@ class UserOrderConfirmation extends React.Component {
           );
         })}
         <p>Total: ${total / 100}</p>
-      </React.Fragment>
+      </div>
     );
   }
 }
