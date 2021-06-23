@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchProduct } from '../store/redux/singleProduct';
 import { updatingProduct } from '../store/redux/products';
 import { postCartItem, putCartItem } from '../store/redux/cart';
+import penniesToDollars from '../Functions/PenniesToDollars';
 
 class SingleProduct extends Component {
   constructor() {
@@ -63,7 +64,7 @@ class SingleProduct extends Component {
               <label htmlFor='price'>Price:</label>
               <input
                 type='integer'
-                value={this.state.price}
+                value={penniesToDollars(this.state.price)}
                 onChange={(evt) => this.setState({ price: evt.target.value })}
               />
               <label htmlFor='stock'>Stock:</label>
@@ -82,8 +83,7 @@ class SingleProduct extends Component {
             <li key={product.id}>
               <img src={product.imageUrl} />
               <h3>{product.name}</h3>
-              <h5>${product.price}</h5>
-              <p>Stock: {product.stock}</p>
+              <h5>{penniesToDollars(product.price)}</h5>
             </li>
             <button
               type='addToCart'

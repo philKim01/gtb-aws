@@ -1,4 +1,5 @@
 import React from 'react';
+import penniesToDollars from '../Functions/PenniesToDollars';
 
 const GuestOrderConfirmation = (props) => {
   const localCart = JSON.parse(window.localStorage.getItem('cart'));
@@ -26,12 +27,12 @@ const GuestOrderConfirmation = (props) => {
       {cartItems.map((cartItem) => {
         return (
           <p key={cartItem.id}>
-            Item: {cartItem.name} Quantity: {cartItem.quantity} Unit Price: $
-            {cartItem.price / 100}
+            Item: {cartItem.name} Quantity: {cartItem.quantity} Unit Price:{' '}
+            {penniesToDollars(cartItem.price)}
           </p>
         );
       })}
-      <p>Total: ${total / 100}</p>
+      <p>Total: {penniesToDollars(total)}</p>
     </React.Fragment>
   );
 };
