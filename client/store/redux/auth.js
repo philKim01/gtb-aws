@@ -78,12 +78,17 @@ export const authenticateSignup =
   };
 
 export const logout = () => {
-  window.localStorage.removeItem(TOKEN);
+  try {
+    window.localStorage.removeItem(TOKEN);
   history.push("/login");
   return {
     type: SET_AUTH,
     auth: {},
   };
+  } catch (error) {
+    console.error(error)
+  }
+  
 };
 
 /**
