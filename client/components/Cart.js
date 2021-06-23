@@ -4,7 +4,7 @@ import { fetchCartItems, putCartItem } from "../store/redux/cart";
 import { checkout } from "../store/redux/orders";
 import CartItem from "./CartItem";
 import { Link } from "react-router-dom";
-import UserOrderConfirmation from "./UserOrderConfirmation";
+import penniesToDollars from "../Functions/PenniesToDollars";
 
 /**
  * COMPONENT
@@ -57,7 +57,7 @@ class Cart extends React.Component {
             return <CartItem key={cartItem.id} cartItem={cartItem} />;
           })}
         </ul>
-        <p>{`$${total / 100}`}</p>
+        <p>{`$${penniesToDollars(total)}`}</p>
         <button
           onClick={() => {
             this.setState({
@@ -84,7 +84,7 @@ class Cart extends React.Component {
             />
           );
         })}
-        <p>{`$${this.state.total / 100}`}</p>
+        <p>{`$${penniesToDollars(total)}`}</p>
         <div>
           <Link to="/guestcheckout">
             <button>Checkout</button>

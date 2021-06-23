@@ -18,11 +18,12 @@ class Login extends React.Component {
         <form onSubmit={handleSubmit} name={name}>
           <div>
             <label htmlFor="username">
-              <small>Username</small>
+              <small>E-mail</small>
             </label>
             <input
-              name="username"
-              type="text"
+              name="email"
+              type="email"
+              required
               placeholder="please enter your e-mail"
             />
           </div>
@@ -30,7 +31,7 @@ class Login extends React.Component {
             <label htmlFor="password">
               <small>Password</small>
             </label>
-            <input name="password" type="password" />
+            <input name="password" type="password" required/>
           </div>
           <br />
 
@@ -58,7 +59,7 @@ const mapDispatch = (dispatch) => {
       handleSubmit(evt) {
         evt.preventDefault();
         const formName = evt.target.name;
-        const username = evt.target.username.value;
+        const username = evt.target.email.value.toLowerCase();
         const password = evt.target.password.value;
         dispatch(authenticateLogin(username, password, formName));
       },

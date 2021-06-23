@@ -1,10 +1,12 @@
-const router = require('express').Router()
-const { models: { User }} = require('../db')
-const { loggedIn, isAdmin } = require('./gatekeepingMiddleware')
+const router = require("express").Router();
+const {
+  models: { User },
+} = require("../db");
+const { loggedIn, isAdmin } = require("./gatekeepingMiddleware");
 
-module.exports = router
+module.exports = router;
 
-router.get('/', loggedIn, isAdmin, async (req, res, next) => {
+router.get("/", loggedIn, isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
@@ -12,8 +14,11 @@ router.get('/', loggedIn, isAdmin, async (req, res, next) => {
       // send everything to anyone who asks!
       attributes: ['id', 'username']
     })
+    if (!users) {
+      next({ status: 500, message: "Database query failed." });
+    }
     res.json(users)
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});

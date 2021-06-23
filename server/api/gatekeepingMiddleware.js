@@ -7,8 +7,8 @@ const loggedIn = async (req, res, next) => {
     const user = await User.findByToken(token);
     req.user = user;
     next();
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -19,8 +19,8 @@ const isAdmin = async (req, res, next) => {
     } else {
       next();
     }
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
