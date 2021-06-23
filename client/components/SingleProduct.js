@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchProduct } from '../store/redux/singleProduct';
-import { updatingProduct } from '../store/redux/products';
-import { postCartItem, putCartItem } from '../store/redux/cart';
-import penniesToDollars from '../Functions/PenniesToDollars';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchProduct } from "../store/redux/singleProduct";
+import { updatingProduct } from "../store/redux/products";
+import { postCartItem, putCartItem } from "../store/redux/cart";
+import penniesToDollars from "../Functions/PenniesToDollars";
 
 class SingleProduct extends Component {
   constructor() {
     super();
     this.state = {
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       price: 0,
-      stock: 0
+      stock: 0,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +36,7 @@ class SingleProduct extends Component {
       name: product.name,
       description: product.description,
       price: product.price,
-      stock: product.stock
+      stock: product.stock,
     });
   }
   render() {
@@ -46,34 +46,34 @@ class SingleProduct extends Component {
         {this.props.isAdmin ? (
           <div>
             <img src={product.imageUrl} />
-            <form id='update-product' onSubmit={this.handleSubmit}>
-              <label htmlFor='productName'>Product Name:</label>
+            <form id="update-product" onSubmit={this.handleSubmit}>
+              <label htmlFor="productName">Product Name:</label>
               <input
-                type='text'
+                type="text"
                 value={this.state.name}
                 onChange={(evt) => this.setState({ name: evt.target.value })}
               />
-              <label htmlFor='description'>Description:</label>
+              <label htmlFor="description">Description:</label>
               <input
-                type='text'
+                type="text"
                 value={this.state.description}
                 onChange={(evt) =>
                   this.setState({ description: evt.target.value })
                 }
               />
-              <label htmlFor='price'>Price:</label>
+              <label htmlFor="price">Price:</label>
               <input
-                type='integer'
+                type="integer"
                 value={penniesToDollars(this.state.price)}
                 onChange={(evt) => this.setState({ price: evt.target.value })}
               />
-              <label htmlFor='stock'>Stock:</label>
+              <label htmlFor="stock">Stock:</label>
               <input
-                type='integer'
+                type="integer"
                 value={this.state.stock}
                 onChange={(evt) => this.setState({ stock: evt.target.value })}
               />
-              <button type='submit' onClick={this.handleSubmit}>
+              <button type="submit" onClick={this.handleSubmit}>
                 Update Product
               </button>
             </form>
@@ -86,8 +86,20 @@ class SingleProduct extends Component {
               <h5>{penniesToDollars(product.price)}</h5>
             </li>
             <button
-              type='addToCart'
+              type="addToCart"
               onClick={() => {
+                let message;
+                if (product.name === "Beanie Babies") {
+                  message = "A Beanie Baby has been added to your cart";
+                } else if (product.name === "GoGo's Crazy Bones") {
+                  message =
+                    "A pack of GoGo's Crazy Bones have been added to your cart";
+                } else if (product.name === "Etch-a-Sketch") {
+                  message = "An Etch-a-Sketch has been added to your cart";
+                } else {
+                  message = `A ${product.name} has been added to your cart`;
+                }
+                window.alert(message);
                 if (this.props.isLoggedIn) {
                   const isInCart = this.props.cartItems.filter((cartItem) => {
                     return cartItem.product.id === product.id;
@@ -101,21 +113,21 @@ class SingleProduct extends Component {
                     );
                   }
                 } else {
-                  let localCart = window.localStorage.getItem('cart');
+                  let localCart = window.localStorage.getItem("cart");
                   if (!localCart) {
                     const productToAdd = Object.assign(product);
                     productToAdd.quantity = 1;
                     const initialCart = {
                       total: product.price,
-                      cartItems: [productToAdd]
+                      cartItems: [productToAdd],
                     };
 
                     window.localStorage.setItem(
-                      'cart',
+                      "cart",
                       JSON.stringify(initialCart)
                     );
                   } else {
-                    localCart = JSON.parse(window.localStorage.getItem('cart'));
+                    localCart = JSON.parse(window.localStorage.getItem("cart"));
                     localCart.total += product.price;
 
                     const isInLocalCart = localCart.cartItems.filter(
@@ -126,7 +138,7 @@ class SingleProduct extends Component {
                     if (isInLocalCart.length) {
                       isInLocalCart[0].quantity += 1;
                       window.localStorage.setItem(
-                        'cart',
+                        "cart",
                         JSON.stringify(localCart)
                       );
                     } else {
@@ -134,7 +146,7 @@ class SingleProduct extends Component {
                       productToAdd.quantity = 1;
                       localCart.cartItems.push(productToAdd);
                       window.localStorage.setItem(
-                        'cart',
+                        "cart",
                         JSON.stringify(localCart)
                       );
                     }
@@ -156,7 +168,7 @@ const mapState = (state) => {
     product: state.product.product,
     isAdmin: state.auth.isAdmin,
     cartItems: state.cart.cartItems,
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
   };
 };
 
@@ -167,7 +179,7 @@ const mapDispatch = (dispatch) => {
       dispatch(updatingProduct(id, changesMade)),
     addToCart: (productId, price) => dispatch(postCartItem(productId, price)),
     updateQuantity: (cartItemId, quantity) =>
-      dispatch(putCartItem(cartItemId, quantity))
+      dispatch(putCartItem(cartItemId, quantity)),
   };
 };
 

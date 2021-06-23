@@ -1,10 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { fetchProducts, fetchProductToDelete } from '../store/redux/products';
-import { Link } from 'react-router-dom';
-import CreateProduct from './CreateProduct';
-import { postCartItem, putCartItem } from '../store/redux/cart';
-import penniesToDollars from '../Functions/PenniesToDollars';
+import React from "react";
+import { connect } from "react-redux";
+import { fetchProducts, fetchProductToDelete } from "../store/redux/products";
+import { Link } from "react-router-dom";
+import CreateProduct from "./CreateProduct";
+import { postCartItem, putCartItem } from "../store/redux/cart";
+import penniesToDollars from "../Functions/PenniesToDollars";
 
 /**
  * COMPONENT
@@ -30,7 +30,7 @@ class AllProducts extends React.Component {
       <div>
         {this.props.isAdmin ? (
           <div>
-            <ul style={{ listStyleType: 'none' }}>
+            <ul style={{ listStyleType: "none" }}>
               {products.map((product) => {
                 return (
                   <li key={product.id}>
@@ -41,7 +41,7 @@ class AllProducts extends React.Component {
                     <h5>{penniesToDollars(product.price)}</h5>
                     <p>Stock: {product.stock}</p>
                     <button
-                      type='submit'
+                      type="submit"
                       value={product.id}
                       onClick={this.handleClick}
                     >
@@ -60,7 +60,7 @@ class AllProducts extends React.Component {
           </div>
         ) : (
           <div>
-            <ul style={{ listStyleType: 'none' }}>
+            <ul style={{ listStyleType: "none" }}>
               {products.map((product) => {
                 return (
                   <React.Fragment>
@@ -72,8 +72,21 @@ class AllProducts extends React.Component {
                       <h5>{penniesToDollars(product.price)}</h5>
                     </li>
                     <button
-                      type='addToCart'
+                      type="addToCart"
                       onClick={() => {
+                        let message;
+                        if (product.name === "Beanie Babies") {
+                          message = "A Beanie Baby has been added to your cart";
+                        } else if (product.name === "GoGo's Crazy Bones") {
+                          message =
+                            "A pack of GoGo's Crazy Bones have been added to your cart";
+                        } else if (product.name === "Etch-a-Sketch") {
+                          message =
+                            "An Etch-a-Sketch has been added to your cart";
+                        } else {
+                          message = `A ${product.name} has been added to your cart`;
+                        }
+                        window.alert(message);
                         if (this.props.isLoggedIn) {
                           const isInCart = this.props.cartItems.filter(
                             (cartItem) => {
@@ -89,22 +102,22 @@ class AllProducts extends React.Component {
                             );
                           }
                         } else {
-                          let localCart = window.localStorage.getItem('cart');
+                          let localCart = window.localStorage.getItem("cart");
                           if (!localCart) {
                             const productToAdd = Object.assign(product);
                             productToAdd.quantity = 1;
                             const initialCart = {
                               total: product.price,
-                              cartItems: [productToAdd]
+                              cartItems: [productToAdd],
                             };
 
                             window.localStorage.setItem(
-                              'cart',
+                              "cart",
                               JSON.stringify(initialCart)
                             );
                           } else {
                             localCart = JSON.parse(
-                              window.localStorage.getItem('cart')
+                              window.localStorage.getItem("cart")
                             );
                             localCart.total += product.price;
 
@@ -116,7 +129,7 @@ class AllProducts extends React.Component {
                             if (isInLocalCart.length) {
                               isInLocalCart[0].quantity += 1;
                               window.localStorage.setItem(
-                                'cart',
+                                "cart",
                                 JSON.stringify(localCart)
                               );
                             } else {
@@ -124,7 +137,7 @@ class AllProducts extends React.Component {
                               productToAdd.quantity = 1;
                               localCart.cartItems.push(productToAdd);
                               window.localStorage.setItem(
-                                'cart',
+                                "cart",
                                 JSON.stringify(localCart)
                               );
                             }
@@ -150,7 +163,7 @@ const mapState = (state) => {
     products: state.products,
     isAdmin: state.auth.isAdmin,
     isLoggedIn: !!state.auth.id,
-    cartItems: state.cart.cartItems
+    cartItems: state.cart.cartItems,
   };
 };
 
@@ -160,7 +173,7 @@ const mapDisptach = (dispatch, { history }) => {
     getProductToDelete: (id) => dispatch(fetchProductToDelete(id, history)),
     addToCart: (productId, price) => dispatch(postCartItem(productId, price)),
     updateQuantity: (cartItemId, quantity) =>
-      dispatch(putCartItem(cartItemId, quantity))
+      dispatch(putCartItem(cartItemId, quantity)),
   };
 };
 

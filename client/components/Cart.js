@@ -100,6 +100,12 @@ class Cart extends React.Component {
     if (!localCart && !this.props.isLoggedIn) {
       return <h2>Cart is Empty</h2>;
     }
+    if (this.props.isLoggedIn && this.props.total === 0) {
+      return <h2>Cart is Empty</h2>;
+    }
+    if (localCart.total === 0 && !this.props.isLoggedIn) {
+      return <h2>Cart is Empty</h2>;
+    }
     return (
       <React.Fragment>
         {!this.state.userOrderComplete ? (
