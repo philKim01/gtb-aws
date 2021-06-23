@@ -1,5 +1,10 @@
+
+
 body {
+  background-color: #742c64;
   font-family: sans-serif;
+  font: Georgia;
+  margin: 0;
 }
 
 a {
@@ -18,4 +23,76 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  border-style: solid;
+  border-width: 1em;
+  border-image: linear-gradient(
+      #f1060b,
+      #1a48a0,
+      #ffee15,
+      #eaab66,
+      #b4dc8c,
+      #742c64
+    )
+    30;
+  float: left;
+  width: 450px;
+  height: auto;
+  object-fit: cover;
+}
+
+.logo {
+  border-style: none;
+  float: left;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+
+}
+
+.MuiButton-root {
+  text-transform: unset !important;
+  display: block;
+  width: 12em;
+}
+
+.singleProduct {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5%;
+  flex-basis: 20%
+}
+
+.productDetails {
+  color: #ffee15;
+}
+
+.productName {
+  color: #ffee15;
+  font-size: 1.5em;
+}
+
+nav > div > a {
+  margin: 1em;
+  font-size: 1.5em;
+}
+
+a:link {
+  text-decoration: none;
+  color: #ffee15;
+}
+
+a:visited {
+  color: #ffee15;
+}
+
+a:hover {
+  color: #f1060b;
 }

@@ -4,6 +4,7 @@ import { fetchProduct } from "../store/redux/singleProduct";
 import { updatingProduct } from "../store/redux/products";
 import { postCartItem, putCartItem } from "../store/redux/cart";
 import penniesToDollars from "../Functions/PenniesToDollars";
+import Button from "@material-ui/core/Button";
 
 class SingleProduct extends Component {
   constructor() {
@@ -79,13 +80,14 @@ class SingleProduct extends Component {
             </form>
           </div>
         ) : (
-          <div>
-            <li key={product.id}>
-              <img src={product.imageUrl} />
-              <h3>{product.name}</h3>
-              <h5>{penniesToDollars(product.price)}</h5>
-            </li>
-            <button
+          <div className="singleProduct" key={product.id}>
+            <h3 className="productName">{product.name}</h3>
+            <p className="productDetails">{penniesToDollars(product.price)}</p>
+            <img src={product.imageUrl} />
+            <p className="productDetails">{product.description}</p>
+            <Button
+              variant="contained"
+              color="default"
               type="addToCart"
               onClick={() => {
                 let message;
@@ -155,7 +157,7 @@ class SingleProduct extends Component {
               }}
             >
               Add To Cart
-            </button>
+            </Button>
           </div>
         )}
       </React.Fragment>

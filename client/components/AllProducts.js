@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import CreateProduct from "./CreateProduct";
 import { postCartItem, putCartItem } from "../store/redux/cart";
 import penniesToDollars from "../Functions/PenniesToDollars";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 /**
  * COMPONENT
@@ -35,7 +37,7 @@ class AllProducts extends React.Component {
                 return (
                   <li key={product.id}>
                     <Link to={`/products/${product.id}`}>
-                      <img src={product.imageUrl} />
+                        <img src={product.imageUrl} />
                     </Link>
                     <h3>{product.name}</h3>
                     <h5>{penniesToDollars(product.price)}</h5>
@@ -60,18 +62,18 @@ class AllProducts extends React.Component {
           </div>
         ) : (
           <div>
-            <ul style={{ listStyleType: "none" }}>
+            <Grid container spacing={10} justify="center">
               {products.map((product) => {
                 return (
-                  <React.Fragment>
-                    <li key={product.id}>
-                      <Link to={`/products/${product.id}`}>
-                        <img src={product.imageUrl} />
-                      </Link>
-                      <h3>{product.name}</h3>
-                      <h5>{penniesToDollars(product.price)}</h5>
-                    </li>
-                    <button
+                  <Grid item key={product.id}>
+                    <h3 className="productName">{product.name}</h3>
+                    <p className="productDetails">{penniesToDollars(product.price)}</p>
+                    <Link to={`/products/${product.id}`}>
+                      <img src={product.imageUrl} />
+                    </Link>
+                    <Button
+                      variant="contained"
+                      color="default"
                       type="addToCart"
                       onClick={() => {
                         let message;
@@ -146,11 +148,11 @@ class AllProducts extends React.Component {
                       }}
                     >
                       Add To Cart
-                    </button>
-                  </React.Fragment>
+                    </Button>
+                  </Grid>
                 );
               })}
-            </ul>
+            </Grid>
           </div>
         )}
       </div>
