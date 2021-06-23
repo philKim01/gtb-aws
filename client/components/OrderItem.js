@@ -1,5 +1,5 @@
-import React from 'react';
-import penniesToDollars from '../Functions/PenniesToDollars';
+import React from "react";
+import penniesToDollars from "../Functions/PenniesToDollars";
 /**
  * COMPONENT
  */
@@ -13,8 +13,8 @@ export class OrderItem extends React.Component {
     return (
       <li key={orderItem.id}>
         <p>{orderItem.product.name}</p>
-        <p>{penniesToDollars(orderItem.price)}</p>
-        <p>{orderItem.quantity}</p>
+        <p>Price: {penniesToDollars(orderItem.price)}</p>
+        <p>Qty: {orderItem.quantity}</p>
       </li>
     );
   }

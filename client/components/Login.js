@@ -14,7 +14,7 @@ class Login extends React.Component {
     const { name, displayName, handleSubmit, error } = this.props;
 
     return (
-      <div>
+      <div className="sign-up">
         <form onSubmit={handleSubmit} name={name}>
           <div>
             <label htmlFor="username">
@@ -31,7 +31,7 @@ class Login extends React.Component {
             <label htmlFor="password">
               <small>Password</small>
             </label>
-            <input name="password" type="password" required/>
+            <input name="password" type="password" required />
           </div>
           <br />
 
@@ -55,16 +55,15 @@ const mapLogin = (state) => {
 };
 
 const mapDispatch = (dispatch) => {
-    return {
-      handleSubmit(evt) {
-        evt.preventDefault();
-        const formName = evt.target.name;
-        const username = evt.target.email.value.toLowerCase();
-        const password = evt.target.password.value;
-        dispatch(authenticateLogin(username, password, formName));
-      },
-    };
+  return {
+    handleSubmit(evt) {
+      evt.preventDefault();
+      const formName = evt.target.name;
+      const username = evt.target.email.value.toLowerCase();
+      const password = evt.target.password.value;
+      dispatch(authenticateLogin(username, password, formName));
+    },
   };
-  
-  export default connect(mapLogin, mapDispatch)(Login);
+};
 
+export default connect(mapLogin, mapDispatch)(Login);

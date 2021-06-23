@@ -1,5 +1,3 @@
-
-
 body {
   background-color: #742c64;
   font-family: sans-serif;
@@ -54,7 +52,6 @@ img {
   width: auto;
   height: auto;
   object-fit: cover;
-
 }
 
 .MuiButton-root {
@@ -67,7 +64,7 @@ img {
   display: flex;
   flex-direction: column;
   margin-left: 5%;
-  flex-basis: 20%
+  flex-basis: 20%;
 }
 
 .productDetails {
@@ -95,4 +92,36 @@ a:visited {
 
 a:hover {
   color: #f1060b;
+}
+
+.empty-cart {
+  color: #ffee15;
+  margin-left: 5%;
+}
+
+.cart-container {
+  margin-left: 5%;
+}
+
+.qty-container {
+  display: flex;
+}
+
+.sign-up {
+  color: #ffee15;
+}
+
+.orders {
+  color: #ffee15;
+  margin-left: 5%;
+}
+
+.order-confirmation {
+  color: #ffee15;
+  margin-left: 5%;
+}
+
+.home {
+  color: #ffee15;
+  text-align: center;
 }

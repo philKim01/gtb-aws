@@ -1,22 +1,15 @@
-import React from 'react';
-import penniesToDollars from '../Functions/PenniesToDollars';
+import React from "react";
+import penniesToDollars from "../Functions/PenniesToDollars";
 
 const GuestOrderConfirmation = (props) => {
-  const localCart = JSON.parse(window.localStorage.getItem('cart'));
-  const {
-    email,
-    firstName,
-    lastName,
-    streetAddress,
-    state,
-    city,
-    zipCode
-  } = props;
+  const localCart = JSON.parse(window.localStorage.getItem("cart"));
+  const { email, firstName, lastName, streetAddress, state, city, zipCode } =
+    props;
   const { total, cartItems } = localCart;
 
   window.localStorage.clear();
   return (
-    <React.Fragment>
+    <div className="order-confirmation">
       <h1>Order confirmed!</h1>
       <p>Email: {email}</p>
       <p>First Name: {firstName}</p>
@@ -27,13 +20,13 @@ const GuestOrderConfirmation = (props) => {
       {cartItems.map((cartItem) => {
         return (
           <p key={cartItem.id}>
-            Item: {cartItem.name} Quantity: {cartItem.quantity} Unit Price:{' '}
+            Item: {cartItem.name} Quantity: {cartItem.quantity} Unit Price:{" "}
             {penniesToDollars(cartItem.price)}
           </p>
         );
       })}
       <p>Total: {penniesToDollars(total)}</p>
-    </React.Fragment>
+    </div>
   );
 };
 

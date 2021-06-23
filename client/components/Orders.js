@@ -19,12 +19,12 @@ class Orders extends React.Component {
   render() {
     const orders = this.props.orders || [];
     return (
-      <React.Fragment>
+      <div className="orders">
         {orders.map((order) => {
           if (order.fulfilled) {
             return (
               <React.Fragment key={order.id}>
-                <p>Order ID {order.id}</p>
+                <p>Order Confirmation # {order.id}</p>
                 <ul style={{ listStyleType: "none" }}>
                   {order.orderItems.map((orderItem) => {
                     return (
@@ -37,7 +37,7 @@ class Orders extends React.Component {
             );
           }
         })}
-      </React.Fragment>
+      </div>
     );
   }
   ß;

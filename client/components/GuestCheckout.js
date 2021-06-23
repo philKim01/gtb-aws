@@ -1,6 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import GuestOrderConfirmation from './GuestOrderConfirmation';
+import React from "react";
+import { connect } from "react-redux";
+import GuestOrderConfirmation from "./GuestOrderConfirmation";
 /**
  * COMPONENT
  */
@@ -8,14 +8,14 @@ class GuestCheckout extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: '',
-      firstName: '',
-      lastName: '',
-      streetAddress: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      orderComplete: false
+      email: "",
+      firstName: "",
+      lastName: "",
+      streetAddress: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      orderComplete: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -23,34 +23,34 @@ class GuestCheckout extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.setState({
-      orderComplete: true
+      orderComplete: true,
     });
   }
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
   render() {
-    const localCart = JSON.parse(window.localStorage.getItem('cart'));
+    const localCart = JSON.parse(window.localStorage.getItem("cart"));
     if (!localCart) {
-      return <h1>Guest Cart Is Empty</h1>;
+      return <h2 className="orders">Guest Cart Is Empty</h2>;
     }
     return (
-      <React.Fragment>
+      <div className="sign-up">
         {!this.state.orderComplete ? (
           <div>
             <form onSubmit={this.handleSubmit}>
               <div>
-                <label htmlFor='email'>
+                <label htmlFor="email">
                   <small>Email</small>
                 </label>
                 <input
-                  name='email'
-                  type='email'
-                  placeholder='please enter your e-mail'
+                  name="email"
+                  type="email"
+                  placeholder="please enter your e-mail"
                   onChange={this.handleChange}
                   required
                 />
@@ -58,63 +58,63 @@ class GuestCheckout extends React.Component {
               <br />
               <div>
                 <div>
-                  <label htmlFor='firstName'>
+                  <label htmlFor="firstName">
                     <small>First Name</small>
                   </label>
                   <input
-                    name='firstName'
-                    type='text'
+                    name="firstName"
+                    type="text"
                     onChange={this.handleChange}
                     required
                   />
 
-                  <label htmlFor='lastName'>
+                  <label htmlFor="lastName">
                     <small>Last Name</small>
                   </label>
                   <input
-                    name='lastName'
-                    type='text'
+                    name="lastName"
+                    type="text"
                     onChange={this.handleChange}
                     required
                   />
 
                   <br />
 
-                  <label htmlFor='streetAddress'>
+                  <label htmlFor="streetAddress">
                     <small>Home Address</small>
                   </label>
                   <input
-                    name='streetAddress'
-                    type='text'
-                    placeholder='street and number'
+                    name="streetAddress"
+                    type="text"
+                    placeholder="street and number"
                     onChange={this.handleChange}
                     required
                   />
                   <input
-                    name='city'
-                    type='text'
-                    placeholder='city'
+                    name="city"
+                    type="text"
+                    placeholder="city"
                     onChange={this.handleChange}
                     required
                   />
                   <input
-                    name='state'
-                    type='text'
-                    placeholder='state (e.g., NY)'
+                    name="state"
+                    type="text"
+                    placeholder="state (e.g., NY)"
                     onChange={this.handleChange}
                     required
                   />
                   <input
-                    name='zipCode'
-                    type='text'
-                    placeholder='zipcode'
+                    name="zipCode"
+                    type="text"
+                    placeholder="zipcode"
                     onChange={this.handleChange}
                     required
                   />
 
                   <br />
                   <div>
-                    <button type='submit'>Complete Order</button>
+                    <button type="submit">Complete Order</button>
                   </div>
                 </div>
               </div>
@@ -131,16 +131,16 @@ class GuestCheckout extends React.Component {
             zipCode={this.state.zipCode}
           />
         )}
-      </React.Fragment>
+      </div>
     );
   }
 }
 
 const mapSignup = (state) => {
   return {
-    name: 'signup',
-    displayName: 'Sign Up',
-    error: state.auth.error
+    name: "signup",
+    displayName: "Sign Up",
+    error: state.auth.error,
   };
 };
 
@@ -170,7 +170,7 @@ const mapDispatch = (dispatch) => {
           formName
         )
       );
-    }
+    },
   };
 };
 
