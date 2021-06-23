@@ -76,6 +76,19 @@ class AllProducts extends React.Component {
                       color="default"
                       type="addToCart"
                       onClick={() => {
+                        let message;
+                        if (product.name === "Beanie Babies") {
+                          message = "A Beanie Baby has been added to your cart";
+                        } else if (product.name === "GoGo's Crazy Bones") {
+                          message =
+                            "A pack of GoGo's Crazy Bones have been added to your cart";
+                        } else if (product.name === "Etch-a-Sketch") {
+                          message =
+                            "An Etch-a-Sketch has been added to your cart";
+                        } else {
+                          message = `A ${product.name} has been added to your cart`;
+                        }
+                        window.alert(message);
                         if (this.props.isLoggedIn) {
                           const isInCart = this.props.cartItems.filter(
                             (cartItem) => {
