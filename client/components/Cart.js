@@ -1,10 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { fetchCartItems, putCartItem } from '../store/redux/cart';
-import { checkout } from '../store/redux/orders';
-import CartItem from './CartItem';
-import { Link } from 'react-router-dom';
-import penniesToDollars from '../Functions/PenniesToDollars';
+import React from "react";
+import { connect } from "react-redux";
+import { fetchCartItems, putCartItem } from "../store/redux/cart";
+import { checkout } from "../store/redux/orders";
+import CartItem from "./CartItem";
+import { Link } from "react-router-dom";
+import UserOrderConfirmation from "./UserOrderConfirmation";
+import penniesToDollars from "../Functions/PenniesToDollars";
 
 /**
  * COMPONENT
@@ -13,7 +14,9 @@ class Cart extends React.Component {
   constructor() {
     super();
     this.state = {
-      total: 0
+      total: 0,
+      userOrderComplete: false,
+      userCompleteCart: {},
     };
     this.updateTotal = this.updateTotal.bind(this);
   }
@@ -22,7 +25,7 @@ class Cart extends React.Component {
     this.props.getCart();
 
     if (!this.props.isLoggedIn) {
-      const localCart = JSON.parse(window.localStorage.getItem('cart'));
+      const localCart = JSON.parse(window.localStorage.getItem("cart"));
 
       // logged in users dont use local state, only for guest users
       let cartTotal;
@@ -32,63 +35,77 @@ class Cart extends React.Component {
         cartTotal = localCart.total;
       }
       this.setState({
-        total: cartTotal
+        total: cartTotal,
       });
     }
   }
   updateTotal() {
-    const localCart = JSON.parse(window.localStorage.getItem('cart'));
+    const localCart = JSON.parse(window.localStorage.getItem("cart"));
     this.setState({
-      total: localCart.total
+      total: localCart.total,
     });
   }
 
-  render() {
+  cartRender() {
     const { total } = this.props;
     const cartItems = this.props.cartItems;
+    const localCart = JSON.parse(window.localStorage.getItem("cart"));
+    return this.props.isLoggedIn ? (
+      <React.Fragment>
+        {" "}
+        <ul style={{ listStyleType: "none" }}>
+          {cartItems.map((cartItem) => {
+            return <CartItem key={cartItem.id} cartItem={cartItem} />;
+          })}
+        </ul>
+        <p>{`${penniesToDollars(total)}`}</p>
+        <button
+          onClick={() => {
+            this.setState({
+              userOrderComplete: true,
+              userCompleteCart: {
+                total: this.props.total,
+                cartItems: this.props.cartItems,
+              },
+            });
+            this.props.markFulfilled(this.props.cartItems[0].orderId, true);
+          }}
+        >
+          Place Order
+        </button>
+      </React.Fragment>
+    ) : (
+      <React.Fragment>
+        {localCart.cartItems.map((cartItem) => {
+          return (
+            <CartItem
+              key={cartItem.id}
+              cartItem={cartItem}
+              updateTotal={this.updateTotal}
+            />
+          );
+        })}
+        <p>{`${penniesToDollars(total)}`}</p>
+        <div>
+          <Link to="/guestcheckout">
+            <button>Checkout</button>
+          </Link>
+        </div>
+      </React.Fragment>
+    );
+  }
 
-    const localCart = JSON.parse(window.localStorage.getItem('cart'));
+  render() {
+    const localCart = JSON.parse(window.localStorage.getItem("cart"));
     if (!localCart && !this.props.isLoggedIn) {
       return <h2>Cart is Empty</h2>;
     }
     return (
       <React.Fragment>
-        {this.props.isLoggedIn ? (
-          <React.Fragment>
-            {' '}
-            <ul style={{ listStyleType: 'none' }}>
-              {cartItems.map((cartItem) => {
-                return <CartItem key={cartItem.id} cartItem={cartItem} />;
-              })}
-            </ul>
-            <p>{penniesToDollars(total)}</p>
-            <button
-              type='submit'
-              onClick={() => {
-                this.props.markFulfilled(this.props.cartItems[0].orderId, true);
-              }}
-            >
-              Place Order
-            </button>
-          </React.Fragment>
+        {!this.state.userOrderComplete ? (
+          this.cartRender()
         ) : (
-          <React.Fragment>
-            {localCart.cartItems.map((cartItem) => {
-              return (
-                <CartItem
-                  key={cartItem.id}
-                  cartItem={cartItem}
-                  updateTotal={this.updateTotal}
-                />
-              );
-            })}
-            <p>{penniesToDollars(this.state.total)}</p>
-            <div>
-              <Link to='/guestcheckout'>
-                <button>Checkout</button>
-              </Link>
-            </div>
-          </React.Fragment>
+          <UserOrderConfirmation cart={this.state.userCompleteCart} />
         )}
       </React.Fragment>
     );
@@ -99,7 +116,7 @@ const mapState = (state) => {
   return {
     cartItems: state.cart.cartItems,
     total: state.cart.total,
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
   };
 };
 
@@ -108,7 +125,7 @@ const mapDisptach = (dispatch) => {
     getCart: () => dispatch(fetchCartItems()),
     updateQuantity: (cartItemId, quantity) =>
       dispatch(putCartItem(cartItemId, quantity)),
-    markFulfilled: (id, fulfilled) => dispatch(checkout(id, fulfilled))
+    markFulfilled: (id, fulfilled) => dispatch(checkout(id, fulfilled)),
   };
 };
 
