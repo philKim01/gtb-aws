@@ -18,11 +18,12 @@ class Signup extends React.Component {
           <form onSubmit={handleSubmit} name={name}>
             <div>
               <label htmlFor="username">
-                <small>Username</small>
+                <small>E-mail</small>
               </label>
               <input
-                name="username"
-                type="text"
+                name="email"
+                type="email"
+                required
                 placeholder="please enter your e-mail"
               />
             </div>
@@ -30,7 +31,7 @@ class Signup extends React.Component {
               <label htmlFor="password">
                 <small>Password</small>
               </label>
-              <input name="password" type="password" />
+              <input name="password" type="password" required />
             </div>
             <br />
               <div>
@@ -41,6 +42,7 @@ class Signup extends React.Component {
             <input
               name="firstName"
               type="text"
+              required
             />
 
             <label htmlFor="lastName">
@@ -49,6 +51,7 @@ class Signup extends React.Component {
             <input
               name="lastName"
               type="text"
+              required
             />
 
             <br />
@@ -59,21 +62,25 @@ class Signup extends React.Component {
             <input
               name="streetAddress"
               type="text"
+              required
               placeholder="street and number"
             />
             <input
               name="city"
               type="text"
+              required
               placeholder="city"
             />
             <input
               name="state"
               type="text"
+              required
               placeholder="state (e.g., NY)"
             />
             <input
               name="zipCode"
               type="text"
+              required
               placeholder="zipcode"
             />
 
@@ -103,7 +110,7 @@ const mapDispatch = (dispatch) => {
       handleSubmit(evt) {
         evt.preventDefault();
         const formName = evt.target.name;
-        const username = evt.target.username.value;
+        const username = evt.target.email.value.toLowerCase();
         const password = evt.target.password.value;
         const firstName = evt.target.firstName.value;
         const lastName = evt.target.lastName.value;

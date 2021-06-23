@@ -50,6 +50,7 @@ class CreateProduct extends React.Component {
               name="name"
               value={name}
               placeholder="**"
+              required
               onChange={this.handleChange}
             />
             <br />
@@ -65,6 +66,7 @@ class CreateProduct extends React.Component {
               name="price"
               value={price}
               placeholder="**(eg, $12.50 is 1250)"
+              required
               onChange={this.handleChange}
             />
             <br />
@@ -79,7 +81,7 @@ class CreateProduct extends React.Component {
             <label htmlFor="stock" className="form-label">
               Stock:
             </label>
-            <input name="stock" value={stock} placeholder="**" onChange={this.handleChange} />
+            <input name="stock" value={stock} placeholder="**" required onChange={this.handleChange} />
             <br />
             <button type="submit">Add Product</button>
           </form>
