@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { deleteCartItem, putCartItem } from '../store/redux/cart';
 import penniesToDollars from '../Functions/PenniesToDollars';
+
 /**
  * COMPONENT
  */
@@ -9,25 +10,25 @@ class CartItem extends React.Component {
   constructor() {
     super();
     this.state = {
-      quantity: 0
+      quantity: 0,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     this.setState({
-      quantity: this.props.cartItem.quantity
+      quantity: this.props.cartItem.quantity,
     });
   }
 
   handleChange(event) {
     this.setState({
-      quantity: event.target.value
+      quantity: event.target.value,
     });
     if (this.props.isLoggedIn) {
       this.props.updateQuantity(this.props.cartItem.id, event.target.value);
     } else {
-      const localCart = JSON.parse(window.localStorage.getItem('cart'));
+      const localCart = JSON.parse(window.localStorage.getItem("cart"));
       const updatedLocalCartItems = localCart.cartItems.map((cartItem) => {
         if (cartItem.id === this.props.cartItem.id) {
           cartItem.quantity = event.target.value;
@@ -38,7 +39,7 @@ class CartItem extends React.Component {
         return total + cartItem.price * cartItem.quantity;
       }, 0);
       localCart.cartItems = updatedLocalCartItems;
-      window.localStorage.setItem('cart', JSON.stringify(localCart));
+      window.localStorage.setItem("cart", JSON.stringify(localCart));
 
       this.props.updateTotal();
     }
@@ -54,26 +55,26 @@ class CartItem extends React.Component {
             <p>{penniesToDollars(cartItem.price)}</p>
             <p>{cartItem.quantity}</p>
 
-            <label htmlFor='quantity'>Qty:</label>
+            <label htmlFor="quantity">Qty:</label>
             <select
-              name='quantity'
-              id='quantity'
+              name="quantity"
+              id="quantity"
               value={this.state.quantity}
               onChange={this.handleChange}
             >
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5</option>
-              <option value='6'>6</option>
-              <option value='7'>7</option>
-              <option value='8'>8</option>
-              <option value='9'>9</option>
-              <option value='10'>10</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
             </select>
             <button
-              type='delete'
+              type="delete"
               onClick={() => this.props.removeFromCart(cartItem.id)}
             >
               Remove From Cart
@@ -85,27 +86,45 @@ class CartItem extends React.Component {
             <p>{penniesToDollars(cartItem.price)}</p>
             <p>{this.state.quantity}</p>
 
-            <label htmlFor='quantity'>Qty:</label>
+            <label htmlFor="quantity">Qty:</label>
             <select
-              name='quantity'
-              id='quantity'
+              name="quantity"
+              id="quantity"
               value={this.state.quantity}
               onChange={this.handleChange}
             >
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5</option>
-              <option value='6'>6</option>
-              <option value='7'>7</option>
-              <option value='8'>8</option>
-              <option value='9'>9</option>
-              <option value='10'>10</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
             </select>
             <button
-              type='delete'
-              onClick={() => this.props.removeFromCart(cartItem.id)}
+              type="delete"
+              onClick={() => {
+                const guestCart = JSON.parse(
+                  window.localStorage.getItem("cart")
+                );
+                const newGuestCartItems = guestCart.cartItems.filter(
+                  (guestCartItem) => {
+                    return guestCartItem.id !== cartItem.id;
+                  }
+                );
+                window.localStorage.setItem(
+                  "cart",
+                  JSON.stringify({
+                    total: (guestCart.total -=
+                      cartItem.price * cartItem.quantity),
+                    cartItems: newGuestCartItems,
+                  })
+                );
+                this.props.updateTotal();
+              }}
             >
               Remove From Cart
             </button>
@@ -117,14 +136,14 @@ class CartItem extends React.Component {
 }
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
   };
 };
 const mapDispatch = (dispatch) => {
   return {
     updateQuantity: (cartItemId, quantity) =>
       dispatch(putCartItem(cartItemId, quantity)),
-    removeFromCart: (id) => dispatch(deleteCartItem(id))
+    removeFromCart: (id) => dispatch(deleteCartItem(id)),
   };
 };
 
