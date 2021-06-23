@@ -127,14 +127,14 @@ async function seed() {
   for (let firstName of userFirstNames) {
     for (let lastName of userLastNames) {
       await User.create({
-        // firstName,
-        // lastName,
+        firstName,
+        lastName,
         username: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@email.com`,
         password: "graceshopper",
-        // streetAddress: "12345 FullStack St",
-        // city: "New York",
-        // state: "New York",
-        // zipCode: 12345,
+        streetAddress: "12345 FullStack St",
+        city: "New York",
+        state: "New York",
+        zipCode: 12345,
       });
     }
   }

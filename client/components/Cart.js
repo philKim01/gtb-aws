@@ -4,6 +4,7 @@ import { fetchCartItems, putCartItem } from "../store/redux/cart";
 import { checkout } from "../store/redux/orders";
 import CartItem from "./CartItem";
 import { Link } from "react-router-dom";
+import UserOrderConfirmation from "./UserOrderConfirmation";
 
 /**
  * COMPONENT
@@ -13,6 +14,8 @@ class Cart extends React.Component {
     super();
     this.state = {
       total: 0,
+      userOrderComplete: false,
+      userCompleteCart: {},
     };
     this.updateTotal = this.updateTotal.bind(this);
   }
@@ -42,52 +45,66 @@ class Cart extends React.Component {
     });
   }
 
-  render() {
+  cartRender() {
     const { total } = this.props;
     const cartItems = this.props.cartItems;
+    const localCart = JSON.parse(window.localStorage.getItem("cart"));
+    return this.props.isLoggedIn ? (
+      <React.Fragment>
+        {" "}
+        <ul style={{ listStyleType: "none" }}>
+          {cartItems.map((cartItem) => {
+            return <CartItem key={cartItem.id} cartItem={cartItem} />;
+          })}
+        </ul>
+        <p>{`$${total / 100}`}</p>
+        <button
+          onClick={() => {
+            this.setState({
+              userOrderComplete: true,
+              userCompleteCart: {
+                total: this.props.total,
+                cartItems: this.props.cartItems,
+              },
+            });
+            this.props.markFulfilled(this.props.cartItems[0].orderId, true);
+          }}
+        >
+          Place Order
+        </button>
+      </React.Fragment>
+    ) : (
+      <React.Fragment>
+        {localCart.cartItems.map((cartItem) => {
+          return (
+            <CartItem
+              key={cartItem.id}
+              cartItem={cartItem}
+              updateTotal={this.updateTotal}
+            />
+          );
+        })}
+        <p>{`$${this.state.total / 100}`}</p>
+        <div>
+          <Link to="/guestcheckout">
+            <button>Checkout</button>
+          </Link>
+        </div>
+      </React.Fragment>
+    );
+  }
 
+  render() {
     const localCart = JSON.parse(window.localStorage.getItem("cart"));
     if (!localCart && !this.props.isLoggedIn) {
       return <h2>Cart is Empty</h2>;
     }
     return (
       <React.Fragment>
-        {this.props.isLoggedIn ? (
-          <React.Fragment>
-            {" "}
-            <ul style={{ listStyleType: "none" }}>
-              {cartItems.map((cartItem) => {
-                return <CartItem key={cartItem.id} cartItem={cartItem} />;
-              })}
-            </ul>
-            <p>{`$${total / 100}`}</p>
-            <button
-              type="submit"
-              onClick={() => {
-                this.props.markFulfilled(this.props.cartItems[0].orderId, true);
-              }}
-            >
-              Place Order
-            </button>
-          </React.Fragment>
+        {!this.state.userOrderComplete ? (
+          this.cartRender()
         ) : (
-          <React.Fragment>
-            {localCart.cartItems.map((cartItem) => {
-              return (
-                <CartItem
-                  key={cartItem.id}
-                  cartItem={cartItem}
-                  updateTotal={this.updateTotal}
-                />
-              );
-            })}
-            <p>{`$${this.state.total / 100}`}</p>
-            <div>
-              <Link to="/guestcheckout">
-                <button>Checkout</button>
-              </Link>
-            </div>
-          </React.Fragment>
+          <UserOrderConfirmation cart={this.state.userCompleteCart} />
         )}
       </React.Fragment>
     );
