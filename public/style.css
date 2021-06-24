@@ -125,3 +125,13 @@ a:hover {
   color: #ffee15;
   text-align: center;
 }
+
+.addProduct {
+  color: #ffee15;
+  margin-left: 5%;
+}
+
+.editProduct {
+  color: #ffee15;
+  margin-left: 5%;
+}

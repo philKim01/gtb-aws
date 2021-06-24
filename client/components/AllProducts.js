@@ -23,7 +23,7 @@ class AllProducts extends React.Component {
 
   handleClick(event) {
     event.preventDefault();
-    this.props.getProductToDelete(event.target.value);
+    this.props.getProductToDelete(event.currentTarget.value);
   }
 
   render() {
@@ -32,33 +32,38 @@ class AllProducts extends React.Component {
       <div>
         {this.props.isAdmin ? (
           <div>
-            <ul style={{ listStyleType: "none" }}>
+            <Grid container spacing={10} justify="center">
               {products.map((product) => {
                 return (
-                  <li key={product.id}>
+                  <Grid item key={product.id}>
+                    <h3 className="productName">{product.name}</h3>
+                    <p className="productDetails">
+                      {penniesToDollars(product.price)}
+                    </p>
+                    <p className="productDetails">Stock: {product.stock}</p>
                     <Link to={`/products/${product.id}`}>
-                        <img src={product.imageUrl} />
+                      <img src={product.imageUrl} />
                     </Link>
-                    <h3>{product.name}</h3>
-                    <h5>{penniesToDollars(product.price)}</h5>
-                    <p>Stock: {product.stock}</p>
-                    <button
+                    <Button
+                      variant="contained"
+                      color="default"
                       type="submit"
                       value={product.id}
                       onClick={this.handleClick}
                     >
                       Remove From Stock
-                    </button>
-                    <br />
-                  </li>
+                    </Button>
+                  </Grid>
                 );
               })}
-            </ul>
+            </Grid>
             &nbsp; &nbsp; &nbsp;
-            <h4>
-              Add A New Product <span>(** = required)</span>
-            </h4>
-            <CreateProduct />
+            <div className="addProduct">
+              <h4>
+                Add A New Product <span>(** = required)</span>
+              </h4>
+              <CreateProduct />
+            </div>
           </div>
         ) : (
           <div>
@@ -67,7 +72,9 @@ class AllProducts extends React.Component {
                 return (
                   <Grid item key={product.id}>
                     <h3 className="productName">{product.name}</h3>
-                    <p className="productDetails">{penniesToDollars(product.price)}</p>
+                    <p className="productDetails">
+                      {penniesToDollars(product.price)}
+                    </p>
                     <Link to={`/products/${product.id}`}>
                       <img src={product.imageUrl} />
                     </Link>
