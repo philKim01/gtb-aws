@@ -57,7 +57,8 @@ router.put("/:id", loggedIn, isAdmin, async (req, res, next) => {
 //DELETE api/products/:id
 router.delete("/:id", loggedIn, isAdmin, async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const productId = parseInt(req.params.id)
+    const product = await Product.findByPk(productId);
     if (!product) {
       next({ status: 500, message: "Database query failed." });
     }

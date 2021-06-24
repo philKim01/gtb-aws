@@ -55,68 +55,65 @@ class GuestCheckout extends React.Component {
                   required
                 />
               </div>
+              <div>
+                <label htmlFor="firstName">
+                  <small>First Name</small>
+                </label>
+                <input
+                  name="firstName"
+                  type="text"
+                  onChange={this.handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName">
+                  <small>Last Name</small>
+                </label>
+                <input
+                  name="lastName"
+                  type="text"
+                  onChange={this.handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="streetAddress">
+                  <small>Home Address</small>
+                </label>
+                <input
+                  name="streetAddress"
+                  type="text"
+                  placeholder="street and number"
+                  onChange={this.handleChange}
+                  required
+                />
+                <input
+                  name="city"
+                  type="text"
+                  placeholder="city"
+                  onChange={this.handleChange}
+                  required
+                />
+                <input
+                  name="state"
+                  type="text"
+                  placeholder="state (e.g., NY)"
+                  onChange={this.handleChange}
+                  required
+                />
+                <input
+                  name="zipCode"
+                  type="text"
+                  placeholder="zipcode"
+                  onChange={this.handleChange}
+                  required
+                />
+              </div>
+
               <br />
               <div>
-                <div>
-                  <label htmlFor="firstName">
-                    <small>First Name</small>
-                  </label>
-                  <input
-                    name="firstName"
-                    type="text"
-                    onChange={this.handleChange}
-                    required
-                  />
-
-                  <label htmlFor="lastName">
-                    <small>Last Name</small>
-                  </label>
-                  <input
-                    name="lastName"
-                    type="text"
-                    onChange={this.handleChange}
-                    required
-                  />
-
-                  <br />
-
-                  <label htmlFor="streetAddress">
-                    <small>Home Address</small>
-                  </label>
-                  <input
-                    name="streetAddress"
-                    type="text"
-                    placeholder="street and number"
-                    onChange={this.handleChange}
-                    required
-                  />
-                  <input
-                    name="city"
-                    type="text"
-                    placeholder="city"
-                    onChange={this.handleChange}
-                    required
-                  />
-                  <input
-                    name="state"
-                    type="text"
-                    placeholder="state (e.g., NY)"
-                    onChange={this.handleChange}
-                    required
-                  />
-                  <input
-                    name="zipCode"
-                    type="text"
-                    placeholder="zipcode"
-                    onChange={this.handleChange}
-                    required
-                  />
-
-                  <br />
-                  <div>
-                    <button type="submit">Complete Order</button>
-                  </div>
-                </div>
+                <button type="submit">Complete Order</button>
               </div>
             </form>
           </div>

@@ -45,7 +45,7 @@ class SingleProduct extends Component {
     return (
       <React.Fragment>
         {this.props.isAdmin ? (
-          <div>
+          <div className="editProduct">
             <img src={product.imageUrl} />
             <form id="update-product" onSubmit={this.handleSubmit}>
               <label htmlFor="productName">Product Name:</label>
@@ -65,7 +65,7 @@ class SingleProduct extends Component {
               <label htmlFor="price">Price:</label>
               <input
                 type="integer"
-                value={penniesToDollars(this.state.price)}
+                value={this.state.price}
                 onChange={(evt) => this.setState({ price: evt.target.value })}
               />
               <label htmlFor="stock">Stock:</label>

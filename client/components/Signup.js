@@ -18,7 +18,7 @@ class Signup extends React.Component {
         <form onSubmit={handleSubmit} name={name}>
           <div>
             <label htmlFor="username">
-              <small>E-mail</small>
+              <small>Email</small>
             </label>
             <input
               name="email"
@@ -33,51 +33,42 @@ class Signup extends React.Component {
             </label>
             <input name="password" type="password" required />
           </div>
+          <div>
+            <label htmlFor="firstName">
+              <small>First Name</small>
+            </label>
+            <input name="firstName" type="text" required />
+          </div>
+          <div>
+            <label htmlFor="lastName">
+              <small>Last Name</small>
+            </label>
+            <input name="lastName" type="text" required />
+          </div>
+          <div>
+            <label htmlFor="streetAddress">
+              <small>Home Address</small>
+            </label>
+            <input
+              name="streetAddress"
+              type="text"
+              required
+              placeholder="street and number"
+            />
+            <input name="city" type="text" required placeholder="city" />
+            <input
+              name="state"
+              type="text"
+              required
+              placeholder="state (e.g., NY)"
+            />
+            <input name="zipCode" type="text" required placeholder="zipcode" />
+          </div>
           <br />
           <div>
-            <div>
-              <label htmlFor="firstName">
-                <small>First Name</small>
-              </label>
-              <input name="firstName" type="text" required />
-
-              <label htmlFor="lastName">
-                <small>Last Name</small>
-              </label>
-              <input name="lastName" type="text" required />
-
-              <br />
-
-              <label htmlFor="streetAddress">
-                <small>Home Address</small>
-              </label>
-              <input
-                name="streetAddress"
-                type="text"
-                required
-                placeholder="street and number"
-              />
-              <input name="city" type="text" required placeholder="city" />
-              <input
-                name="state"
-                type="text"
-                required
-                placeholder="state (e.g., NY)"
-              />
-              <input
-                name="zipCode"
-                type="text"
-                required
-                placeholder="zipcode"
-              />
-
-              <br />
-              <div>
-                <button type="submit">{displayName}</button>
-              </div>
-            </div>
-            {error && error.response && <div> {error.response.data} </div>}
+            <button type="submit">{displayName}</button>
           </div>
+          {error && error.response && <div> {error.response.data} </div>}
         </form>
       </div>
     );
